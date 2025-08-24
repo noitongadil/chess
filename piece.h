@@ -1,44 +1,24 @@
-#include <iostream>
+#pragma once
 
-class Board; // to avoid circular includes
+#include <iostream>
+#include <string>
+#include <vector>
+
+class Board;
 
 class Piece {
-  private:
-    Board *local_board;
-    int side;
-    int file;
-    int rank;
-    char type;
-    char symb;
-    std::vector<std::string> directions;
+ private:
+  Board* local_board;
+  int file;
+  int rank;
+  enum Side : char { black, white };
+  Side side;
 
-    // Instance method (in private because it is not called outside of the class)
-    void disambiguate(std::string move, std::vector<std::string> &possible_moves);
+  void disambiguate(std::string move, std::vector<std::string>& possible_moves);
+  Piece(Board* board, int file, int rank, Side side);
+  std::vector<std::string> possibleMoves();
 
-  public:
-    // Constructor
-    Piece(Board *board, int side, int file, int rank, char type, char symb);
-
-    // Instance methods
-    void makeMove(Piece *piece, int fin_file, int fin_rank, int castle, bool taking);
-    bool isBlocked(int side, int file2check, int rank2check);
-    void getPosMovesRec(Piece piece, std::vector<std::string> &possible_moves, int curr_rank, int curr_file,
-                        std::string direction, bool start);
-    std::vector<std::string> possibleMoves();
-
-    // Setter methods
-    void setRank(int n);
-    void setFile(int n);
-    void setSide(int n);
-    void setType(char c);
-    void setSymb(char c);
-    void setDir(std::vector<std::string> directions);
-
-    // Getter methods
-    std::vector<std::string> getDirs();
-    char getSymb();
-    char getType();
-    int getRank();
-    int getFile();
-    int getSide();
-}; // end Piece
+ public:
+  void makeMove(Piece* piece, int fin_file, int fin_rank, int castle,
+                bool taking);
+};
