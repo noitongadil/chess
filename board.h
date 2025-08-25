@@ -1,17 +1,25 @@
-#include <iostream>
+#pragma once
 
+#include <iostream>
 #include "piece.h"
 
-struct Stats;
+class Board
+{
+public:
+    /// @brief Default constructor.
+    Board();
 
-class Board {
- public:
-  std::vector<Piece> pieces;
+    /// @brief Prints the board.
+    void print_board();
 
-  Board();
+    /**
+         * @brief Passes the move along to the correct piece.
+         *
+         * @param move The move to pass along.
+         * @param side The side the move was made from.
+         * @param gamestats The stats of the game to keep track of.
+         */
+    void pass_move(std::string &move, Piece::Side side);
 
-  void printBoard();
-  void passMove(std::string move, int side, Stats& gamestats);
-
- private:
+    std::vector<Piece *> m_pieces; ///< Container to hold all the pieces.
 };
