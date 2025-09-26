@@ -1,9 +1,0 @@
-add_library(pieces
-            piece.cpp
-            king.cpp
-            queen.cpp
-            bishop.cpp
-            rook.cpp
-            knight.cpp
-            pawn.cpp
-            board.cpp)
