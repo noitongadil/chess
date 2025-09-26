@@ -5,7 +5,6 @@
 #include <vector> // for vectors
 
 #include "board.h"
-#include "stats.h"
 
 void replaySystem();
 
@@ -14,8 +13,6 @@ std::vector<std::string> parseInput();
 int countNewLines(const std::string *str);
 
 void movesInVector(std::string moves_str, std::vector<std::string> &moves);
-
-void printStats(Stats gamestats);
 
 int main()
 {
@@ -86,20 +83,19 @@ void movesInVector(std::string moves_str, std::vector<std::string> &moves)
         "|(([a-h][1-8])(=)([RNBQ]))");
     for (int i = 0; i < moves_str.length(); i++)
     {
-        // TODO: explain
         if (moves_str[i] == '\n')
         {
             if (i == 0)
             {
                 continue;
-            } // end if
+            }
             try
             {
                 if (std::regex_match(moves[move_num], valid_move) == false)
                 {
                     err = true;
                     throw(err);
-                } // end if
+                }
             }
             catch (bool err)
             {
@@ -120,7 +116,7 @@ void movesInVector(std::string moves_str, std::vector<std::string> &moves)
             if (moves_str[i + 1] == '\n')
             {
                 continue;
-            } // end if
+            }
             move_num++;
             continue;
         }
