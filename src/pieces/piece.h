@@ -21,7 +21,6 @@ public:
     /// @brief Returns all the possible moves of a piece.
     virtual std::vector<std::string> possible_moves() const = 0;
 
-
     /// @brief Destructor.
     virtual ~Piece() = default;
 
@@ -61,4 +60,7 @@ protected:
      */
     void disambiguate(std::string move,
                       std::vector<std::string> &possible_moves) const;
+
+    void rec_helper(std::vector<std::string> &possible_moves, Position curr_pos,
+                    std::string dir, bool start = false) const;
 };
