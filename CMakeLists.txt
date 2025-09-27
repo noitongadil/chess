@@ -16,6 +16,9 @@ set(SRC_FILES
     src/pieces/pawn.cpp
 )
 
+set(CURSES_NEED_NCURSES TRUE)
+find_package(Curses REQUIRED)
+
 include_directories(
     src
     src/board
@@ -23,3 +26,5 @@ include_directories(
 )
 
 add_executable(chess ${SRC_FILES})
+
+target_link_libraries(chess PRIVATE ${CURSES_LIBRARIES})

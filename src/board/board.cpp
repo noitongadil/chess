@@ -1,3 +1,5 @@
+#include <ncurses.h>
+
 #include "piece.h"
 #include "board.h"
 #include "piece.h"
@@ -10,6 +12,8 @@
 
 Board::Board()
 {
+    m_pieces.reserve(32);
+
     auto w_king = new King(this, Piece::Position(1, 5), Piece::WHITE);
     auto b_king = new King(this, Piece::Position(8, 5), Piece::BLACK);
     m_pieces.push_back(w_king);
@@ -65,31 +69,58 @@ Board::Board()
 
 void Board::print_board()
 {
-    bool printed = false;
+    initscr();
+    cbreak();
 
-    for (int rank = 8; rank >= 1; rank--)
+    if (has_colors() == false)
     {
-        for (int file = 1; file <= 8; file++)
-        {
-            printed = false;
-
-            for (auto &piece : m_pieces)
-            {
-                if (piece->m_pos.file == file && piece->m_pos.rank == rank)
-                {
-                    printf("%c ", piece->m_symb);
-                    printed = true;
-                    break;
-                }
-            }
-
-            if (!printed)
-            {
-                std::cout << "- ";
-            }
-        }
-        std::cout << std::endl;
+        fprintf(stderr, "your terminal does not support colors\n");
+        endwin();
+        return;
     }
+
+    int max_x = getmaxx(stdscr);
+    int max_y = getmaxy(stdscr);
+
+    int height = 10, width = 19, start_y = (max_y - height) / 2,
+        start_x = (max_x - width) / 2;
+    WINDOW *win = newwin(height, width, start_y, start_x);
+    box(win, 0, 0);
+    refresh();
+
+    start_color();
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(2, COLOR_BLUE, COLOR_BLACK);
+
+    for (int i = 1; i <= 8; i++)
+    {
+        mvprintw(start_y + i, start_x - 1, "%d", 9 - i);
+    }
+
+    for (int i = 1; i <= 8; i++)
+    {
+        mvprintw(start_y + height, start_x + i * 2, "%c", 'a' - 1 + i);
+    }
+
+    for (auto &piece : m_pieces)
+    {
+        if (piece->m_side == Piece::WHITE)
+        {
+            wattron(win, COLOR_PAIR(1));
+        }
+        else
+        {
+            wattron(win, COLOR_PAIR(2));
+        }
+
+        mvwprintw(win, 9 - piece->m_pos.rank, piece->m_pos.file * 2, "%c",
+                  piece->m_symb);
+    }
+
+    wrefresh(win);
+    wclear(win);
+
+    endwin();
 }
 
 void Board::pass_move(std::string &move, Piece::Side side)
