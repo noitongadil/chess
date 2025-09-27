@@ -2,6 +2,7 @@
 #include <regex> // for input/move validation
 #include <vector> // for vectors
 #include <iostream> // cout
+#include <ncurses.h>
 
 #include "board.h"
 
@@ -13,6 +14,8 @@ int countNewLines(const std::string *str);
 
 void movesInVector(std::string moves_str, std::vector<std::string> &moves);
 
+std::string get_user_move();
+
 int main()
 {
     replaySystem();
@@ -21,20 +24,40 @@ int main()
 
 void replaySystem()
 {
-    std::vector<std::string> moves = parseInput();
-
     Board board;
     board.print_board();
-    for (int i = 0; i < moves.size(); i++)
+    for (int i = 0; ; i++)
     {
+        std::string move = get_user_move();
         Piece::Side side = (i % 2 == 0) ? Piece::WHITE : Piece::BLACK;
         std::cout << std::endl;
-        std::cout << "move: " << moves[i] << std::endl
+        std::cout << "move: " << move << std::endl
                   << "move num: " << i + 1 << std::endl;
 
-        board.pass_move(moves[i], side);
+        board.pass_move(move, side);
         board.print_board();
     }
+}
+
+std::string get_user_move()
+{
+    initscr();
+    echo();
+
+    int max_x = getmaxx(stdscr);
+    int max_y = getmaxy(stdscr);
+
+    int height = 3, width = 23, start_y = (max_y - height - 3),
+        start_x = (max_x - width) / 2;
+    WINDOW *win = newwin(height, width, start_y, start_x);
+    box(win, 0, 0);
+    refresh();
+
+    char move[10];
+    mvwgetstr(win, 1, 1, move);
+
+    endwin();
+    return move;
 }
 
 std::vector<std::string> parseInput()
