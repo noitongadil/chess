@@ -3,10 +3,11 @@
 #include "board.h"
 #include "piece.h"
 
-Piece::Piece(Board *board, Position pos, Side side)
+Piece::Piece(Board *board, Position pos, Side side, char symb)
     : m_board(board)
     , m_pos(pos)
     , m_side(side)
+    , m_symb(symb)
 {
 }
 
@@ -89,8 +90,8 @@ void Piece::rec_helper(std::vector<std::string> &possible_moves,
                     return;
                 }
 
-                std::string move(1, (m_symb > 'Z') ? m_symb - ('a' - 'A') :
-                                                     m_symb);
+                std::string move;
+                move += m_symb;
                 move += 'x';
                 move += curr_pos.file - 1 + 'a';
                 move += std::to_string(curr_pos.rank);
@@ -101,7 +102,8 @@ void Piece::rec_helper(std::vector<std::string> &possible_moves,
             }
         }
 
-        std::string move(1, (m_symb > 'Z') ? m_symb - ('a' - 'A') : m_symb);
+        std::string move;
+        move += m_symb;
         move += curr_pos.file - 1 + 'a';
         move += std::to_string(curr_pos.rank);
         possible_moves.push_back(move);

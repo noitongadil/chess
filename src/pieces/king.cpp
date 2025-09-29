@@ -2,9 +2,8 @@
 #include "board.h"
 
 King::King(Board *board, Position pos, Side side)
-    : Piece(board, pos, side)
+    : Piece(board, pos, side, 'K')
 {
-    m_symb = (side == WHITE) ? 'K' : 'k';
 }
 
 bool King::isBlocked(Side side, int file, int rank) const

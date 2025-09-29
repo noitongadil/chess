@@ -7,13 +7,9 @@
 #include "board.h"
 
 void replaySystem();
-
 std::vector<std::string> parseInput();
-
-int countNewLines(const std::string *str);
-
-void movesInVector(std::string moves_str, std::vector<std::string> &moves);
-
+int countNewLines(const std::string *);
+void movesInVector(std::string, std::vector<std::string> &);
 std::string get_user_move();
 
 int main()
@@ -26,7 +22,7 @@ void replaySystem()
 {
     Board board;
     board.print_board();
-    for (int i = 0; ; i++)
+    for (int i = 0;; i++)
     {
         std::string move = get_user_move();
         Piece::Side side = (i % 2 == 0) ? Piece::WHITE : Piece::BLACK;

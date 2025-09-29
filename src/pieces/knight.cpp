@@ -1,9 +1,8 @@
 #include "knight.h"
 
 Knight::Knight(Board *board, Position pos, Side side)
-    : Piece(board, pos, side)
+    : Piece(board, pos, side, 'N')
 {
-    m_symb = (side == WHITE) ? 'N' : 'n';
 }
 
 std::vector<std::string> Knight::possible_moves() const
