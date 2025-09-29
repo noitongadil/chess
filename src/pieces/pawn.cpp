@@ -2,9 +2,8 @@
 #include "board.h"
 
 Pawn::Pawn(Board *local_board, Position pos, Side side)
-    : Piece(local_board, pos, side)
+    : Piece(local_board, pos, side, 'P')
 {
-    m_symb = (side == WHITE) ? 'P' : 'p';
 }
 
 std::vector<std::string> Pawn::possible_moves() const

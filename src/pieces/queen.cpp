@@ -2,9 +2,8 @@
 #include "queen.h"
 
 Queen::Queen(Board *board, Position pos, Side side)
-    : Piece(board, pos, side)
+    : Piece(board, pos, side, 'Q')
 {
-    m_symb = (side == WHITE) ? 'Q' : 'q';
 }
 
 std::vector<std::string> Queen::possible_moves() const

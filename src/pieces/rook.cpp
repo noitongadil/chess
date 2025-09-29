@@ -3,9 +3,8 @@
 #include <string>
 
 Rook::Rook(Board *board, Position pos, Side side)
-    : Piece(board, pos, side)
+    : Piece(board, pos, side, 'R')
 {
-    m_symb = (side == WHITE) ? 'R' : 'r';
 }
 
 std::vector<std::string> Rook::possible_moves() const

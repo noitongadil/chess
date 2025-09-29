@@ -2,9 +2,8 @@
 #include "bishop.h"
 
 Bishop::Bishop(Board *board, Position pos, Side side)
-    : Piece(board, pos, side)
+    : Piece(board, pos, side, 'B')
 {
-    m_symb = (side == WHITE) ? 'B' : 'b';
 }
 
 std::vector<std::string> Bishop::possible_moves() const

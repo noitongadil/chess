@@ -50,7 +50,7 @@ public:
 
 protected:
     /// @brief Default constructor.
-    Piece(Board *board, Position pos, Side side);
+    Piece(Board *board, Position pos, Side side, char symb);
 
     /**
      * @brief Disambiguates all possible moves of a piece.
