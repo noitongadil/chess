@@ -11,7 +11,8 @@ std::vector<std::string> Knight::possible_moves() const
     std::vector<std::string> possible_moves;
 
     // up right
-    if (m_pos.file + 1 <= 8 && m_pos.rank + 2 <= 8)
+    if (is_blocked(m_pos.rank + 2, m_pos.file + 1) && m_pos.rank + 2 <= 8 &&
+        m_pos.file + 1 <= 8)
     {
         move = 'N';
         move += m_pos.file + 'a';
@@ -25,7 +26,8 @@ std::vector<std::string> Knight::possible_moves() const
     }
 
     // down right
-    if (m_pos.file + 1 <= 8 && m_pos.rank - 2 >= 1)
+    if (is_blocked(m_pos.rank - 2, m_pos.file + 1) && m_pos.rank - 2 >= 1 &&
+        m_pos.file + 1 <= 8)
     {
         move = 'N';
         move += m_pos.file + 'a';
@@ -39,7 +41,8 @@ std::vector<std::string> Knight::possible_moves() const
     }
 
     // up left
-    if (m_pos.file - 1 >= 1 && m_pos.rank + 2 <= 8)
+    if (is_blocked(m_pos.rank + 2, m_pos.file - 1) && m_pos.rank + 2 <= 8 &&
+        m_pos.file - 1 >= 1)
     {
         move = 'N';
         move += m_pos.file - 2 + 'a';
@@ -53,7 +56,8 @@ std::vector<std::string> Knight::possible_moves() const
     }
 
     // down left
-    if (m_pos.file - 1 >= 1 && m_pos.rank - 2 >= 1)
+    if (is_blocked(m_pos.rank - 2, m_pos.file - 1) && m_pos.rank - 2 >= 1 &&
+        m_pos.file - 1 >= 1)
     {
         move = 'N';
         move += m_pos.file - 2 + 'a';
@@ -67,7 +71,8 @@ std::vector<std::string> Knight::possible_moves() const
     }
 
     // right up
-    if (m_pos.file + 2 <= 8 && m_pos.rank + 1 <= 8)
+    if (is_blocked(m_pos.rank + 1, m_pos.file + 2) && m_pos.rank + 1 <= 8 &&
+        m_pos.file + 2 <= 8)
     {
         move = 'N';
         move += m_pos.file + 1 + 'a';
@@ -81,7 +86,8 @@ std::vector<std::string> Knight::possible_moves() const
     }
 
     // right down
-    if (m_pos.file + 2 <= 8 && m_pos.rank - 1 >= 1)
+    if (is_blocked(m_pos.rank - 1, m_pos.file + 2) && m_pos.rank - 1 >= 1 &&
+        m_pos.file + 2 <= 8)
     {
         move = 'N';
         move += m_pos.file + 1 + 'a';
@@ -95,7 +101,8 @@ std::vector<std::string> Knight::possible_moves() const
     }
 
     // left up
-    if (m_pos.file - 2 >= 1 && m_pos.rank + 1 <= 8)
+    if (is_blocked(m_pos.rank + 1, m_pos.file - 2) && m_pos.rank + 1 <= 8 &&
+        m_pos.file - 2 >= 1)
     {
         move = 'N';
         move += m_pos.file - 3 + 'a';
@@ -109,7 +116,8 @@ std::vector<std::string> Knight::possible_moves() const
     }
 
     // left down
-    if (m_pos.file - 2 >= 1 && m_pos.rank - 1 >= 1)
+    if (is_blocked(m_pos.rank - 1, m_pos.file - 2) && m_pos.rank - 1 >= 1 &&
+        m_pos.file - 2 >= 1)
     {
         move = 'N';
         move += m_pos.file - 3 + 'a';

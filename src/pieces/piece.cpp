@@ -26,6 +26,23 @@ void Piece::disambiguate(std::string move,
     possible_moves.push_back(move);
 }
 
+bool Piece::is_blocked(int rank, int file) const
+{
+    for (auto &piece : m_board->m_pieces)
+    {
+        if (piece->m_side != m_side)
+        {
+            return false;
+        }
+
+        if (piece->m_pos.rank == rank && piece->m_pos.file == file)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 void Piece::make_move(int dest_file, int dest_rank, bool taking)
 {
     if (dest_file > 8 && dest_rank > 8)
