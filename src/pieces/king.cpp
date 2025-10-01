@@ -6,19 +6,6 @@ King::King(Board *board, Position pos, Side side)
 {
 }
 
-bool King::isBlocked(Side side, int file, int rank) const
-{
-    for (auto &piece : m_board->m_pieces)
-    {
-        if (piece->m_pos.file == file && piece->m_pos.rank == rank &&
-            piece->m_side == side)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
 std::vector<std::string> King::possible_moves() const
 {
     std::vector<std::string> possible_moves;
@@ -26,7 +13,7 @@ std::vector<std::string> King::possible_moves() const
     // right
     if (m_pos.file < 8)
     {
-        if (!isBlocked(m_side, m_pos.file + 1, m_pos.rank))
+        if (!is_blocked(m_pos.file + 1, m_pos.rank))
         {
             std::string move = "K";
             move += m_pos.file + 'a';
@@ -40,7 +27,7 @@ std::vector<std::string> King::possible_moves() const
         // right up
         if (m_pos.rank < 8)
         {
-            if (!isBlocked(m_side, m_pos.file + 1, m_pos.rank + 1))
+            if (!is_blocked(m_pos.file + 1, m_pos.rank + 1))
             {
                 std::string move = "K";
                 move += m_pos.file + 'a';
@@ -55,7 +42,7 @@ std::vector<std::string> King::possible_moves() const
         // right down
         if (m_pos.rank > 1)
         {
-            if (!isBlocked(m_side, m_pos.file + 1, m_pos.rank - 1))
+            if (!is_blocked(m_pos.file + 1, m_pos.rank - 1))
             {
                 std::string move = "K";
                 move += m_pos.file + 'a';
@@ -71,7 +58,7 @@ std::vector<std::string> King::possible_moves() const
     // up
     if (m_pos.rank < 8)
     {
-        if (!isBlocked(m_side, m_pos.file, m_pos.rank + 1))
+        if (!is_blocked(m_pos.file, m_pos.rank + 1))
         {
             std::string move = "K";
             move += m_pos.file - 1 + 'a';
@@ -86,7 +73,7 @@ std::vector<std::string> King::possible_moves() const
     // down
     if (m_pos.rank > 1)
     {
-        if (!isBlocked(m_side, m_pos.file, m_pos.rank - 1))
+        if (!is_blocked(m_pos.file, m_pos.rank - 1))
         {
             std::string move = "K";
             move += m_pos.file - 1 + 'a';
@@ -101,7 +88,7 @@ std::vector<std::string> King::possible_moves() const
     // left
     if (m_pos.file > 1)
     {
-        if (!isBlocked(m_side, m_pos.file - 1, m_pos.rank))
+        if (!is_blocked(m_pos.file - 1, m_pos.rank))
         {
             std::string move = "K";
             move += m_pos.file - 2 + 'a';
@@ -115,7 +102,7 @@ std::vector<std::string> King::possible_moves() const
         // left up
         if (m_pos.rank < 8)
         {
-            if (!isBlocked(m_side, m_pos.file - 1, m_pos.rank + 1))
+            if (!is_blocked(m_pos.file - 1, m_pos.rank + 1))
             {
                 std::string move = "K";
                 move += m_pos.file - 2 + 'a';
@@ -131,7 +118,7 @@ std::vector<std::string> King::possible_moves() const
     // left down
     if (m_pos.rank > 1)
     {
-        if (!isBlocked(m_side, m_pos.file - 1, m_pos.rank - 1))
+        if (!is_blocked(m_pos.file - 1, m_pos.rank - 1))
         {
             std::string move = "K";
             move += (m_pos.file - 2 + 'a');

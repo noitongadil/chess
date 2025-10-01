@@ -63,4 +63,6 @@ protected:
 
     void rec_helper(std::vector<std::string> &possible_moves, Position curr_pos,
                     std::string dir, bool start = false) const;
+
+    bool is_blocked(int rank, int file) const;
 };
