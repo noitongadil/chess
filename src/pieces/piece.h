@@ -16,7 +16,7 @@ public:
      * @param dest_rank The rank to move to.
      * @param taking If a move is taking or not.
      */
-    void make_move(int dest_file, int dest_rank, bool taking);
+    void make_move(int16_t dest_file, int16_t dest_rank, bool taking);
 
     /// @brief Returns all the possible moves of a piece.
     virtual std::vector<std::string> possible_moves() const = 0;
@@ -29,16 +29,16 @@ public:
 
     enum Side : char
     {
-        BLACK,
-        WHITE
+        WHITE,
+        BLACK
     };
 
     struct Position
     {
-        int rank;
-        int file;
+        int16_t rank;
+        int16_t file;
 
-        Position(int rank, int file);
+        Position(int16_t rank, int16_t file);
 
         bool operator==(Position &other);
     };
@@ -64,5 +64,5 @@ protected:
     void rec_helper(std::vector<std::string> &possible_moves, Position curr_pos,
                     std::string dir, bool start = false) const;
 
-    bool is_blocked(int rank, int file) const;
+    bool is_blocked(int16_t rank, int16_t file) const;
 };

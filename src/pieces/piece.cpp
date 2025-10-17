@@ -11,7 +11,7 @@ Piece::Piece(Board *board, Position pos, Side side, char symb)
 {
 }
 
-Piece::Position::Position(int rank, int file)
+Piece::Position::Position(int16_t rank, int16_t file)
     : rank(rank)
     , file(file)
 {
@@ -26,7 +26,7 @@ void Piece::disambiguate(std::string move,
     possible_moves.push_back(move);
 }
 
-bool Piece::is_blocked(int rank, int file) const
+bool Piece::is_blocked(int16_t rank, int16_t file) const
 {
     for (auto &piece : m_board->m_pieces)
     {
@@ -43,7 +43,7 @@ bool Piece::is_blocked(int rank, int file) const
     return false;
 }
 
-void Piece::make_move(int dest_file, int dest_rank, bool taking)
+void Piece::make_move(int16_t dest_file, int16_t dest_rank, bool taking)
 {
     if (dest_file > 8 && dest_rank > 8)
     {

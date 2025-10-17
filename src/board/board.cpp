@@ -16,54 +16,54 @@ Board::Board()
 
     auto w_king = new King(this, Piece::Position(1, 5), Piece::WHITE);
     auto b_king = new King(this, Piece::Position(8, 5), Piece::BLACK);
-    m_pieces.push_back(w_king);
-    m_pieces.push_back(b_king);
+    m_pieces.emplace_back(w_king);
+    m_pieces.emplace_back(b_king);
 
     auto w_queen = new Queen(this, Piece::Position(1, 4), Piece::WHITE);
     auto b_queen = new Queen(this, Piece::Position(8, 4), Piece::BLACK);
-    m_pieces.push_back(w_queen);
-    m_pieces.push_back(b_queen);
+    m_pieces.emplace_back(w_queen);
+    m_pieces.emplace_back(b_queen);
 
     auto w_bishop_r = new Bishop(this, Piece::Position(1, 3), Piece::WHITE);
     auto w_bishop_l = new Bishop(this, Piece::Position(1, 6), Piece::WHITE);
     auto b_bishop_r = new Bishop(this, Piece::Position(8, 3), Piece::BLACK);
     auto b_bishop_l = new Bishop(this, Piece::Position(8, 6), Piece::BLACK);
 
-    m_pieces.push_back(w_bishop_r);
-    m_pieces.push_back(w_bishop_l);
-    m_pieces.push_back(b_bishop_r);
-    m_pieces.push_back(b_bishop_l);
+    m_pieces.emplace_back(w_bishop_r);
+    m_pieces.emplace_back(w_bishop_l);
+    m_pieces.emplace_back(b_bishop_r);
+    m_pieces.emplace_back(b_bishop_l);
 
     auto w_knight_l = new Knight(this, Piece::Position(1, 2), Piece::WHITE);
     auto w_knight_r = new Knight(this, Piece::Position(1, 7), Piece::WHITE);
     auto b_knight_l = new Knight(this, Piece::Position(8, 2), Piece::BLACK);
     auto b_knight_r = new Knight(this, Piece::Position(8, 7), Piece::BLACK);
 
-    m_pieces.push_back(w_knight_l);
-    m_pieces.push_back(w_knight_r);
-    m_pieces.push_back(b_knight_l);
-    m_pieces.push_back(b_knight_r);
+    m_pieces.emplace_back(w_knight_l);
+    m_pieces.emplace_back(w_knight_r);
+    m_pieces.emplace_back(b_knight_l);
+    m_pieces.emplace_back(b_knight_r);
 
     auto w_rook_l = new Rook(this, Piece::Position(1, 1), Piece::WHITE);
     auto w_rook_r = new Rook(this, Piece::Position(1, 8), Piece::WHITE);
     auto b_rook_l = new Rook(this, Piece::Position(8, 1), Piece::BLACK);
     auto b_rook_r = new Rook(this, Piece::Position(8, 8), Piece::BLACK);
 
-    m_pieces.push_back(w_rook_l);
-    m_pieces.push_back(w_rook_r);
-    m_pieces.push_back(b_rook_l);
-    m_pieces.push_back(b_rook_r);
+    m_pieces.emplace_back(w_rook_l);
+    m_pieces.emplace_back(w_rook_r);
+    m_pieces.emplace_back(b_rook_l);
+    m_pieces.emplace_back(b_rook_r);
 
     for (int i = 1; i <= 8; i++)
     {
         auto pawn = new Pawn(this, Piece::Position(2, i), Piece::WHITE);
-        m_pieces.push_back(pawn);
+        m_pieces.emplace_back(pawn);
     }
 
     for (int i = 1; i <= 8; i++)
     {
         auto pawn = new Pawn(this, Piece::Position(7, i), Piece::BLACK);
-        m_pieces.push_back(pawn);
+        m_pieces.emplace_back(pawn);
     }
 }
 
