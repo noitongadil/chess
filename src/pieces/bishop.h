@@ -5,9 +5,10 @@
 class Bishop : public Piece
 {
 public:
-    Bishop(Board *board, Position pos, Side side);
+    Bishop(Board *board, Side side);
 
     Bishop(Bishop &other);
 
-    virtual std::vector<std::string> possible_moves() const override;
+    virtual std::vector<std::string> get_moves(int8_t file,
+                                               int8_t rank) const override;
 };

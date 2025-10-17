@@ -1,6 +1,5 @@
 #pragma once
 
-#include <iostream>
 #include <string>
 #include <vector>
 
@@ -9,60 +8,60 @@ class Board;
 class Piece
 {
 public:
+    enum class Side : char
+    {
+        WHITE,
+        BLACK,
+        NONE,
+    };
+
+protected:
     /**
-     * @brief Moves a piece.
-     *
-     * @param dest_file The file to move to.
-     * @param dest_rank The rank to move to.
-     * @param taking If a move is taking or not.
+     * @brief Default constructor.
      */
-    void make_move(int16_t dest_file, int16_t dest_rank, bool taking);
+    Piece(Board *board, Side side, char symb);
 
-    /// @brief Returns all the possible moves of a piece.
-    virtual std::vector<std::string> possible_moves() const = 0;
-
-    /// @brief Destructor.
+public:
+    /**
+     * @brief Destructor.
+     */
     virtual ~Piece() = default;
+
+    /**
+     * @brief Returns all the possible moves of a piece.
+     *
+     * @param file The file the piece is on.
+     * @param rank The rank the piece is on.
+     * @return A vector of strings containing all possible moves.
+     */
+    virtual std::vector<std::string> get_moves(int8_t file,
+                                               int8_t rank) const = 0;
+
+    /**
+     * @brief Returns the symbol of a piece.
+     */
+    char get_symb();
+
+    /**
+     * @brief Returns the side of a piece.
+     */
+    Side get_side();
 
     Piece(const Piece &other) = delete;
     Piece(Piece &&other) = delete;
 
-    enum Side : char
-    {
-        WHITE,
-        BLACK
-    };
-
-    struct Position
-    {
-        int16_t rank;
-        int16_t file;
-
-        Position(int16_t rank, int16_t file);
-
-        bool operator==(Position &other);
-    };
-
-    Position m_pos; ///< Position of the piece.
-    Board *m_board; ///< Pointer to the board being played on.
-    Side m_side; ///< The side the piece belongs to.
-    char m_symb;
-
 protected:
-    /// @brief Default constructor.
-    Piece(Board *board, Position pos, Side side, char symb);
+    Board *m_board; ///< Pointer to the board being played on.
+    Side m_side; ///< Side of piece.
+    char m_symb; ///< Symbol of piece.
 
     /**
      * @brief Disambiguates all possible moves of a piece.
      *
-     * @param move The move to disambiguate.
-     * @param possible_moves Reference to the vector of possible moves.
+     * @param file The file of the piece.
+     * @param rank The rank of the the piece.
+     * @param moves Reference to the vector of all possible moves.
      */
-    void disambiguate(std::string move,
-                      std::vector<std::string> &possible_moves) const;
-
-    void rec_helper(std::vector<std::string> &possible_moves, Position curr_pos,
-                    std::string dir, bool start = false) const;
-
-    bool is_blocked(int16_t rank, int16_t file) const;
+    void disambiguate_moves(int8_t file, int8_t rank,
+                            std::vector<std::string> &moves) const;
 };

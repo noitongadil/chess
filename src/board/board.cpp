@@ -1,7 +1,7 @@
 #include <ncurses.h>
 
-#include "piece.h"
 #include "board.h"
+#include "piece.h"
 #include "piece.h"
 #include "king.h"
 #include "bishop.h"
@@ -12,64 +12,55 @@
 
 Board::Board()
 {
-    m_pieces.reserve(32);
+    m_grid[4][0] = new King(this, Piece::Side::WHITE);
+    m_grid[4][7] = new King(this, Piece::Side::BLACK);
 
-    auto w_king = new King(this, Piece::Position(1, 5), Piece::WHITE);
-    auto b_king = new King(this, Piece::Position(8, 5), Piece::BLACK);
-    m_pieces.emplace_back(w_king);
-    m_pieces.emplace_back(b_king);
+    m_grid[3][0] = new Queen(this, Piece::Side::WHITE);
+    m_grid[3][7] = new Queen(this, Piece::Side::BLACK);
 
-    auto w_queen = new Queen(this, Piece::Position(1, 4), Piece::WHITE);
-    auto b_queen = new Queen(this, Piece::Position(8, 4), Piece::BLACK);
-    m_pieces.emplace_back(w_queen);
-    m_pieces.emplace_back(b_queen);
+    m_grid[2][0] = new Bishop(this, Piece::Side::WHITE);
+    m_grid[5][0] = new Bishop(this, Piece::Side::WHITE);
+    m_grid[2][7] = new Bishop(this, Piece::Side::BLACK);
+    m_grid[5][7] = new Bishop(this, Piece::Side::BLACK);
 
-    auto w_bishop_r = new Bishop(this, Piece::Position(1, 3), Piece::WHITE);
-    auto w_bishop_l = new Bishop(this, Piece::Position(1, 6), Piece::WHITE);
-    auto b_bishop_r = new Bishop(this, Piece::Position(8, 3), Piece::BLACK);
-    auto b_bishop_l = new Bishop(this, Piece::Position(8, 6), Piece::BLACK);
+    m_grid[1][0] = new Knight(this, Piece::Side::WHITE);
+    m_grid[6][0] = new Knight(this, Piece::Side::WHITE);
+    m_grid[1][7] = new Knight(this, Piece::Side::BLACK);
+    m_grid[6][7] = new Knight(this, Piece::Side::BLACK);
 
-    m_pieces.emplace_back(w_bishop_r);
-    m_pieces.emplace_back(w_bishop_l);
-    m_pieces.emplace_back(b_bishop_r);
-    m_pieces.emplace_back(b_bishop_l);
+    m_grid[0][0] = new Rook(this, Piece::Side::WHITE);
+    m_grid[7][0] = new Rook(this, Piece::Side::WHITE);
+    m_grid[0][7] = new Rook(this, Piece::Side::BLACK);
+    m_grid[7][7] = new Rook(this, Piece::Side::BLACK);
 
-    auto w_knight_l = new Knight(this, Piece::Position(1, 2), Piece::WHITE);
-    auto w_knight_r = new Knight(this, Piece::Position(1, 7), Piece::WHITE);
-    auto b_knight_l = new Knight(this, Piece::Position(8, 2), Piece::BLACK);
-    auto b_knight_r = new Knight(this, Piece::Position(8, 7), Piece::BLACK);
-
-    m_pieces.emplace_back(w_knight_l);
-    m_pieces.emplace_back(w_knight_r);
-    m_pieces.emplace_back(b_knight_l);
-    m_pieces.emplace_back(b_knight_r);
-
-    auto w_rook_l = new Rook(this, Piece::Position(1, 1), Piece::WHITE);
-    auto w_rook_r = new Rook(this, Piece::Position(1, 8), Piece::WHITE);
-    auto b_rook_l = new Rook(this, Piece::Position(8, 1), Piece::BLACK);
-    auto b_rook_r = new Rook(this, Piece::Position(8, 8), Piece::BLACK);
-
-    m_pieces.emplace_back(w_rook_l);
-    m_pieces.emplace_back(w_rook_r);
-    m_pieces.emplace_back(b_rook_l);
-    m_pieces.emplace_back(b_rook_r);
-
-    for (int i = 1; i <= 8; i++)
+    for (int file = 0; file < 8; file++)
     {
-        auto pawn = new Pawn(this, Piece::Position(2, i), Piece::WHITE);
-        m_pieces.emplace_back(pawn);
+        m_grid[file][1] = new Pawn(this, Piece::Side::WHITE);
     }
 
-    for (int i = 1; i <= 8; i++)
+    for (int file = 0; file < 8; file++)
     {
-        auto pawn = new Pawn(this, Piece::Position(7, i), Piece::BLACK);
-        m_pieces.emplace_back(pawn);
+        m_grid[file][6] = new Pawn(this, Piece::Side::BLACK);
     }
 }
 
-void Board::print_board()
+Board::~Board()
 {
-    initscr();
+    for (int file = 0; file < 8; file++)
+    {
+        for (int rank = 0; rank < 8; rank++)
+        {
+            if (m_grid[file][rank] != nullptr)
+            {
+                delete m_grid[file][rank];
+                m_grid[file][rank] = nullptr;
+            }
+        }
+    }
+}
+
+void Board::display_board()
+{
     cbreak();
 
     if (has_colors() == false)
@@ -82,8 +73,11 @@ void Board::print_board()
     int max_x = getmaxx(stdscr);
     int max_y = getmaxy(stdscr);
 
-    int height = 10, width = 19, start_y = (max_y - height) / 2,
-        start_x = (max_x - width) / 2;
+    int height = 10;
+    int width = 19;
+    int start_y = (max_y - height) / 2;
+    int start_x = (max_x - width) / 2;
+
     WINDOW *win = newwin(height, width, start_y, start_x);
     box(win, 0, 0);
     refresh();
@@ -92,88 +86,125 @@ void Board::print_board()
     init_pair(1, COLOR_RED, COLOR_BLACK);
     init_pair(2, COLOR_BLUE, COLOR_BLACK);
 
-    for (int i = 1; i <= 8; i++)
+    for (int rank = 1; rank <= 8; rank++)
     {
-        mvprintw(start_y + i, start_x - 1, "%d", 9 - i);
+        mvprintw(start_y + rank, start_x - 1, "%d", 9 - rank);
     }
 
-    for (int i = 1; i <= 8; i++)
+    for (int file = 1; file <= 8; file++)
     {
-        mvprintw(start_y + height, start_x + i * 2, "%c", 'a' - 1 + i);
+        mvprintw(start_y + height, start_x + file * 2, "%c", 'a' - 1 + file);
     }
 
-    for (auto &piece : m_pieces)
+    for (int file = 0; file < 8; file++)
     {
-        if (piece->m_side == Piece::WHITE)
+        for (int rank = 0; rank < 8; rank++)
         {
-            wattron(win, COLOR_PAIR(1));
-        }
-        else
-        {
-            wattron(win, COLOR_PAIR(2));
-        }
+            if (m_grid[file][rank] == nullptr)
+            {
+                continue;
+            }
 
-        mvwprintw(win, 9 - piece->m_pos.rank, piece->m_pos.file * 2, "%c",
-                  piece->m_symb);
+            if (m_grid[file][rank]->get_side() == Piece::Side::WHITE)
+            {
+                wattron(win, COLOR_PAIR(1));
+            }
+            else
+            {
+                wattron(win, COLOR_PAIR(2));
+            }
+
+            mvwprintw(win, 8 - rank, (file + 1) * 2, "%c",
+                      m_grid[file][rank]->get_symb());
+        }
     }
 
     wrefresh(win);
     wclear(win);
-
-    endwin();
 }
 
-void Board::pass_move(std::string &move, Piece::Side side)
+void Board::make_move(std::string &move, Piece::Side side)
 {
     int mv_len = move.length();
 
-    int dest_file = move[mv_len - 2] - 'a' + 1;
-    int dest_rank = move[mv_len - 1] - '0';
-
-    bool taking = false;
+    int dest_file = move[mv_len - 2] - 'a';
+    int dest_rank = move[mv_len - 1] - '1';
 
     if (move[mv_len - 1] == '+' || move[mv_len - 1] == '#')
     {
-        dest_file = move[mv_len - 3] - 'a' + 1;
-        dest_rank = move[mv_len - 2] - '0';
+        dest_file = move[mv_len - 3] - 'a';
+        dest_rank = move[mv_len - 2] - '1';
 
         move.erase(move.end() - 1);
     }
 
+    int8_t castle;
     if (move == "O-O")
     {
-        dest_file = 9;
-        dest_rank = 9;
+        // short
+        castle = 1;
     }
     else if (move == "O-O-O")
     {
-        dest_file = -1;
-        dest_rank = -1;
+        // long
+        castle = 2;
     }
 
-    for (char c : move)
+    for (int file = 0; file < 8; file++)
     {
-        if (c == 'x')
+        for (int rank = 0; rank < 8; rank++)
         {
-            taking = true;
-            break;
-        }
-    }
-
-    for (auto &piece : m_pieces)
-    {
-        if (piece->m_side != side)
-        {
-            continue;
-        }
-
-        std::vector<std::string> possible_moves = piece->possible_moves();
-        for (std::string &pos_move : possible_moves)
-        {
-            if (pos_move == move)
+            if (m_grid[file][rank] == nullptr ||
+                m_grid[file][rank]->get_side() != side)
             {
-                piece->make_move(dest_file, dest_rank, taking);
-                return;
+                continue;
+            }
+
+            std::vector<std::string> moves =
+                m_grid[file][rank]->get_moves(file, rank);
+
+            for (auto loc_move : moves)
+            {
+                if (loc_move == move)
+                {
+                    // clang-format off
+                    switch (castle)
+                    {
+                        case 1:
+                        {
+                            auto king = m_grid[file][rank];
+                            m_grid[file + 1][rank] = m_grid[7][rank];
+                            m_grid[file + 2][rank] = king;
+                            m_grid[file][rank] = nullptr;
+                            m_grid[7][rank] = nullptr;
+                            return;
+                        }
+
+                        case 2:
+                        {
+                            auto king = m_grid[file][rank];
+                            m_grid[file - 1][rank] = m_grid[0][rank];
+                            m_grid[file - 2][rank] = king;
+                            m_grid[file][rank] = nullptr;
+                            m_grid[0][rank] = nullptr;
+                            return;
+                        }
+
+                        default:
+                            break;
+                    }
+                    // clang-format on
+
+                    if (m_grid[dest_file][dest_rank] != nullptr)
+                    {
+                        delete m_grid[dest_file][dest_rank];
+                    }
+
+                    m_grid[dest_file][dest_rank] = m_grid[file][rank];
+                    m_grid[file][rank] = nullptr;
+
+                    return;
+                }
             }
         }
     }
