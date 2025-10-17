@@ -12,62 +12,39 @@
 
 Board::Board()
 {
-    m_pieces.reserve(32);
+    m_grid[4][0] = new King(this, Piece::Position(1, 5), Piece::WHITE);
+    m_grid[5][7] = new King(this, Piece::Position(8, 5), Piece::BLACK);
 
-    auto w_king = new King(this, Piece::Position(1, 5), Piece::WHITE);
-    auto b_king = new King(this, Piece::Position(8, 5), Piece::BLACK);
-    m_pieces.emplace_back(w_king);
-    m_pieces.emplace_back(b_king);
+    m_grid[3][0] = new Queen(this, Piece::Position(1, 4), Piece::WHITE);
+    m_grid[3][7] = new Queen(this, Piece::Position(8, 4), Piece::BLACK);
 
-    auto w_queen = new Queen(this, Piece::Position(1, 4), Piece::WHITE);
-    auto b_queen = new Queen(this, Piece::Position(8, 4), Piece::BLACK);
-    m_pieces.emplace_back(w_queen);
-    m_pieces.emplace_back(b_queen);
+    m_grid[2][0] = new Bishop(this, Piece::Position(1, 3), Piece::WHITE);
+    m_grid[5][0] = new Bishop(this, Piece::Position(1, 6), Piece::WHITE);
+    m_grid[2][7] = new Bishop(this, Piece::Position(8, 3), Piece::BLACK);
+    m_grid[5][7] = new Bishop(this, Piece::Position(8, 6), Piece::BLACK);
 
-    auto w_bishop_r = new Bishop(this, Piece::Position(1, 3), Piece::WHITE);
-    auto w_bishop_l = new Bishop(this, Piece::Position(1, 6), Piece::WHITE);
-    auto b_bishop_r = new Bishop(this, Piece::Position(8, 3), Piece::BLACK);
-    auto b_bishop_l = new Bishop(this, Piece::Position(8, 6), Piece::BLACK);
+    m_grid[1][0] = new Knight(this, Piece::Position(1, 2), Piece::WHITE);
+    m_grid[6][0] = new Knight(this, Piece::Position(1, 7), Piece::WHITE);
+    m_grid[1][7] = new Knight(this, Piece::Position(8, 2), Piece::BLACK);
+    m_grid[6][7] = new Knight(this, Piece::Position(8, 7), Piece::BLACK);
 
-    m_pieces.emplace_back(w_bishop_r);
-    m_pieces.emplace_back(w_bishop_l);
-    m_pieces.emplace_back(b_bishop_r);
-    m_pieces.emplace_back(b_bishop_l);
-
-    auto w_knight_l = new Knight(this, Piece::Position(1, 2), Piece::WHITE);
-    auto w_knight_r = new Knight(this, Piece::Position(1, 7), Piece::WHITE);
-    auto b_knight_l = new Knight(this, Piece::Position(8, 2), Piece::BLACK);
-    auto b_knight_r = new Knight(this, Piece::Position(8, 7), Piece::BLACK);
-
-    m_pieces.emplace_back(w_knight_l);
-    m_pieces.emplace_back(w_knight_r);
-    m_pieces.emplace_back(b_knight_l);
-    m_pieces.emplace_back(b_knight_r);
-
-    auto w_rook_l = new Rook(this, Piece::Position(1, 1), Piece::WHITE);
-    auto w_rook_r = new Rook(this, Piece::Position(1, 8), Piece::WHITE);
-    auto b_rook_l = new Rook(this, Piece::Position(8, 1), Piece::BLACK);
-    auto b_rook_r = new Rook(this, Piece::Position(8, 8), Piece::BLACK);
-
-    m_pieces.emplace_back(w_rook_l);
-    m_pieces.emplace_back(w_rook_r);
-    m_pieces.emplace_back(b_rook_l);
-    m_pieces.emplace_back(b_rook_r);
+    m_grid[0][0] = new Rook(this, Piece::Position(1, 1), Piece::WHITE);
+    m_grid[7][0] = new Rook(this, Piece::Position(1, 8), Piece::WHITE);
+    m_grid[0][7] = new Rook(this, Piece::Position(8, 1), Piece::BLACK);
+    m_grid[7][7] = new Rook(this, Piece::Position(8, 8), Piece::BLACK);
 
     for (int i = 1; i <= 8; i++)
     {
-        auto pawn = new Pawn(this, Piece::Position(2, i), Piece::WHITE);
-        m_pieces.emplace_back(pawn);
+        m_grid[i - 1][1] = new Pawn(this, Piece::Position(2, i), Piece::WHITE);
     }
 
     for (int i = 1; i <= 8; i++)
     {
-        auto pawn = new Pawn(this, Piece::Position(7, i), Piece::BLACK);
-        m_pieces.emplace_back(pawn);
+        m_grid[i - 1][6] = new Pawn(this, Piece::Position(7, i), Piece::BLACK);
     }
 }
 
-void Board::print_board()
+void Board::display_board()
 {
     initscr();
     cbreak();
@@ -102,6 +79,7 @@ void Board::print_board()
         mvprintw(start_y + height, start_x + i * 2, "%c", 'a' - 1 + i);
     }
 
+#if 0
     for (auto &piece : m_pieces)
     {
         if (piece->m_side == Piece::WHITE)
@@ -116,6 +94,7 @@ void Board::print_board()
         mvwprintw(win, 9 - piece->m_pos.rank, piece->m_pos.file * 2, "%c",
                   piece->m_symb);
     }
+#endif
 
     wrefresh(win);
     wclear(win);
@@ -123,7 +102,7 @@ void Board::print_board()
     endwin();
 }
 
-void Board::pass_move(std::string &move, Piece::Side side)
+void Board::make_move(std::string &move, Piece::Side side)
 {
     int mv_len = move.length();
 
@@ -157,24 +136,6 @@ void Board::pass_move(std::string &move, Piece::Side side)
         {
             taking = true;
             break;
-        }
-    }
-
-    for (auto &piece : m_pieces)
-    {
-        if (piece->m_side != side)
-        {
-            continue;
-        }
-
-        std::vector<std::string> possible_moves = piece->possible_moves();
-        for (std::string &pos_move : possible_moves)
-        {
-            if (pos_move == move)
-            {
-                piece->make_move(dest_file, dest_rank, taking);
-                return;
-            }
         }
     }
 }
