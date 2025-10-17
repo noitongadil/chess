@@ -8,6 +8,20 @@ class Board;
 class Piece
 {
 public:
+    enum class Side : char
+    {
+        WHITE,
+        BLACK,
+        NONE,
+    };
+
+protected:
+    /**
+     * @brief Default constructor.
+     */
+    Piece(Board *board, Side side, char symb);
+
+public:
     /**
      * @brief Returns all the possible moves of a piece.
      *
@@ -28,25 +42,18 @@ public:
      */
     char get_symb();
 
+    /**
+     * @brief Returns the side of a piece.
+     */
+    Side get_side();
+
     Piece(const Piece &other) = delete;
     Piece(Piece &&other) = delete;
-
-    enum class Side : char
-    {
-        WHITE,
-        BLACK,
-        NONE,
-    };
 
 protected:
     Board *m_board; ///< Pointer to the board being played on.
     Side m_side; ///< Side of piece.
     char m_symb; ///< Symbol of piece.
-
-    /**
-     * @brief Default constructor.
-     */
-    Piece(Board *board, Side side, char symb);
 
     /**
      * @brief Disambiguates all possible moves of a piece.
