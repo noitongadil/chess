@@ -13,14 +13,14 @@ std::vector<std::string> Pawn::possible_moves() const
 
     if (m_side == WHITE)
     {
-        if (m_pos.rank == 2 && is_blocked(m_pos.rank + 2, m_pos.file))
+        if (m_pos.rank == 2 && !is_blocked(m_pos.rank + 2, m_pos.file))
         {
             move = m_pos.file - 1 + 'a';
             move += std::to_string(m_pos.rank + 2);
             possible_moves.push_back(move);
         }
 
-        if (is_blocked(m_pos.rank + 1, m_pos.file))
+        if (!is_blocked(m_pos.rank + 1, m_pos.file))
         {
             move = m_pos.file - 1 + 'a';
             move += std::to_string(m_pos.rank + 1);
@@ -41,14 +41,14 @@ std::vector<std::string> Pawn::possible_moves() const
     }
     else
     {
-        if (m_pos.rank == 7)
+        if (m_pos.rank == 7 && !is_blocked(m_pos.rank - 2, m_pos.file))
         {
             move = m_pos.file - 1 + 'a';
             move += std::to_string(m_pos.rank - 2);
             possible_moves.push_back(move);
         }
 
-        if (is_blocked(m_pos.rank + 1, m_pos.file))
+        if (!is_blocked(m_pos.rank + 1, m_pos.file))
         {
             move = m_pos.file - 1 + 'a';
             move += std::to_string(m_pos.rank - 1);

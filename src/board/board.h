@@ -17,7 +17,6 @@ public:
      *
      * @param move The move to pass along.
      * @param side The side the move was made from.
-     * @param gamestats The stats of the game to keep track of.
      */
     void pass_move(std::string &move, Piece::Side side);
 
