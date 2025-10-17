@@ -6,19 +6,28 @@
 class Board
 {
 public:
-    /// @brief Default constructor.
+    /**
+     * @brief Default constructor.
+     */
     Board();
 
-    /// @brief Prints the board.
-    void print_board();
+    /**
+     * @brief Destructor.
+     */
+    ~Board();
+
+    /**
+     * @brief Prints the board.
+     */
+    void display_board();
 
     /**
      * @brief Passes the move along to the correct piece.
      *
      * @param move The move to pass along.
-     * @param side The side the move was made from.
+     * @param color The side the move was made from.
      */
-    void pass_move(std::string &move, Piece::Side side);
+    void make_move(std::string &move, Piece::Side side);
 
-    std::vector<Piece *> m_pieces; ///< Container to hold all the pieces.
+    Piece *m_grid[8][8] = {}; ///< The grid of pieces.
 };
