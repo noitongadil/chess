@@ -9,6 +9,7 @@ Pawn::Pawn(Board *local_board, Side side)
 std::vector<std::string> Pawn::get_moves(int8_t file, int8_t rank) const
 {
     std::vector<std::string> moves;
+    moves.reserve(4);
     std::string move;
 
     if (m_side == Side::WHITE)

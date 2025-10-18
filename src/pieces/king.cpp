@@ -9,6 +9,7 @@ King::King(Board *board, Side side)
 std::vector<std::string> King::get_moves(int8_t file, int8_t rank) const
 {
     std::vector<std::string> moves;
+    moves.reserve(20);
     std::string move;
 
     // up
@@ -20,12 +21,12 @@ std::vector<std::string> King::get_moves(int8_t file, int8_t rank) const
 
         if (m_board->m_grid[file][rank + 1] == nullptr)
         {
-            moves.push_back(move);
+            moves.emplace_back(move);
         }
         else if (m_board->m_grid[file][rank + 1]->get_side() != m_side)
         {
             move.insert(1, 1, 'x');
-            moves.push_back(move);
+            moves.emplace_back(move);
         }
     }
 
@@ -38,12 +39,12 @@ std::vector<std::string> King::get_moves(int8_t file, int8_t rank) const
 
         if (m_board->m_grid[file + 1][rank + 1] == nullptr)
         {
-            moves.push_back(move);
+            moves.emplace_back(move);
         }
         else if (m_board->m_grid[file + 1][rank + 1]->get_side() != m_side)
         {
             move.insert(1, 1, 'x');
-            moves.push_back(move);
+            moves.emplace_back(move);
         }
     }
 
@@ -56,12 +57,12 @@ std::vector<std::string> King::get_moves(int8_t file, int8_t rank) const
 
         if (m_board->m_grid[file - 1][rank + 1] == nullptr)
         {
-            moves.push_back(move);
+            moves.emplace_back(move);
         }
         else if (m_board->m_grid[file - 1][rank + 1]->get_side() != m_side)
         {
             move.insert(1, 1, 'x');
-            moves.push_back(move);
+            moves.emplace_back(move);
         }
     }
 
@@ -74,12 +75,12 @@ std::vector<std::string> King::get_moves(int8_t file, int8_t rank) const
 
         if (m_board->m_grid[file + 1][rank] == nullptr)
         {
-            moves.push_back(move);
+            moves.emplace_back(move);
         }
         else if (m_board->m_grid[file + 1][rank]->get_side() != m_side)
         {
             move.insert(1, 1, 'x');
-            moves.push_back(move);
+            moves.emplace_back(move);
         }
     }
 
@@ -92,12 +93,12 @@ std::vector<std::string> King::get_moves(int8_t file, int8_t rank) const
 
         if (m_board->m_grid[file - 1][rank] == nullptr)
         {
-            moves.push_back(move);
+            moves.emplace_back(move);
         }
         else if (m_board->m_grid[file - 1][rank]->get_side() != m_side)
         {
             move.insert(1, 1, 'x');
-            moves.push_back(move);
+            moves.emplace_back(move);
         }
     }
 
@@ -110,12 +111,12 @@ std::vector<std::string> King::get_moves(int8_t file, int8_t rank) const
 
         if (m_board->m_grid[file][rank - 1] == nullptr)
         {
-            moves.push_back(move);
+            moves.emplace_back(move);
         }
         else if (m_board->m_grid[file][rank - 1]->get_side() != m_side)
         {
             move.insert(1, 1, 'x');
-            moves.push_back(move);
+            moves.emplace_back(move);
         }
     }
 
@@ -128,12 +129,12 @@ std::vector<std::string> King::get_moves(int8_t file, int8_t rank) const
 
         if (m_board->m_grid[file + 1][rank - 1] == nullptr)
         {
-            moves.push_back(move);
+            moves.emplace_back(move);
         }
         else if (m_board->m_grid[file + 1][rank - 1]->get_side() != m_side)
         {
             move.insert(1, 1, 'x');
-            moves.push_back(move);
+            moves.emplace_back(move);
         }
     }
 
@@ -146,13 +147,21 @@ std::vector<std::string> King::get_moves(int8_t file, int8_t rank) const
 
         if (m_board->m_grid[file - 1][rank - 1] == nullptr)
         {
-            moves.push_back(move);
+            moves.emplace_back(move);
         }
         else if (m_board->m_grid[file - 1][rank - 1]->get_side() != m_side)
         {
             move.insert(1, 1, 'x');
-            moves.push_back(move);
+            moves.emplace_back(move);
         }
+    }
+
+    if ((rank == 0 || rank == 7) && file == 4)
+    {
+        move = "O-O";
+        moves.emplace_back(move);
+        move = "O-O-O";
+        moves.emplace_back(move);
     }
 
     return moves;

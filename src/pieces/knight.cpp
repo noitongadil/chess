@@ -9,6 +9,7 @@ Knight::Knight(Board *board, Side side)
 std::vector<std::string> Knight::get_moves(int8_t file, int8_t rank) const
 {
     std::vector<std::string> moves;
+    moves.reserve(16);
     std::string move;
 
     // up right
@@ -20,13 +21,13 @@ std::vector<std::string> Knight::get_moves(int8_t file, int8_t rank) const
 
         if (m_board->m_grid[file + 1][rank + 2] == nullptr)
         {
-            moves.push_back(move);
+            moves.emplace_back(move);
             disambiguate(move, file, rank, moves);
         }
         else if (m_board->m_grid[file + 1][rank + 2]->get_side() != m_side)
         {
             move.insert(1, 1, 'x');
-            moves.push_back(move);
+            moves.emplace_back(move);
             disambiguate(move, file, rank, moves);
         }
     }
@@ -40,13 +41,13 @@ std::vector<std::string> Knight::get_moves(int8_t file, int8_t rank) const
 
         if (m_board->m_grid[file - 1][rank + 2] == nullptr)
         {
-            moves.push_back(move);
+            moves.emplace_back(move);
             disambiguate(move, file, rank, moves);
         }
         else if (m_board->m_grid[file - 1][rank + 2]->get_side() != m_side)
         {
             move.insert(1, 1, 'x');
-            moves.push_back(move);
+            moves.emplace_back(move);
             disambiguate(move, file, rank, moves);
         }
     }
@@ -60,13 +61,13 @@ std::vector<std::string> Knight::get_moves(int8_t file, int8_t rank) const
 
         if (m_board->m_grid[file + 1][rank - 2] == nullptr)
         {
-            moves.push_back(move);
+            moves.emplace_back(move);
             disambiguate(move, file, rank, moves);
         }
         else if (m_board->m_grid[file + 1][rank - 2]->get_side() != m_side)
         {
             move.insert(1, 1, 'x');
-            moves.push_back(move);
+            moves.emplace_back(move);
             disambiguate(move, file, rank, moves);
         }
     }
@@ -80,13 +81,13 @@ std::vector<std::string> Knight::get_moves(int8_t file, int8_t rank) const
 
         if (m_board->m_grid[file - 1][rank - 2] == nullptr)
         {
-            moves.push_back(move);
+            moves.emplace_back(move);
             disambiguate(move, file, rank, moves);
         }
         else if (m_board->m_grid[file - 1][rank - 2]->get_side() != m_side)
         {
             move.insert(1, 1, 'x');
-            moves.push_back(move);
+            moves.emplace_back(move);
             disambiguate(move, file, rank, moves);
         }
     }
@@ -100,13 +101,13 @@ std::vector<std::string> Knight::get_moves(int8_t file, int8_t rank) const
 
         if (m_board->m_grid[file + 2][rank + 1] == nullptr)
         {
-            moves.push_back(move);
+            moves.emplace_back(move);
             disambiguate(move, file, rank, moves);
         }
         else if (m_board->m_grid[file + 2][rank + 1]->get_side() != m_side)
         {
             move.insert(1, 1, 'x');
-            moves.push_back(move);
+            moves.emplace_back(move);
             disambiguate(move, file, rank, moves);
         }
     }
@@ -120,13 +121,13 @@ std::vector<std::string> Knight::get_moves(int8_t file, int8_t rank) const
 
         if (m_board->m_grid[file + 2][rank - 1] == nullptr)
         {
-            moves.push_back(move);
+            moves.emplace_back(move);
             disambiguate(move, file, rank, moves);
         }
         else if (m_board->m_grid[file + 2][rank - 1]->get_side() != m_side)
         {
             move.insert(1, 1, 'x');
-            moves.push_back(move);
+            moves.emplace_back(move);
             disambiguate(move, file, rank, moves);
         }
     }
@@ -140,13 +141,13 @@ std::vector<std::string> Knight::get_moves(int8_t file, int8_t rank) const
 
         if (m_board->m_grid[file - 2][rank + 1] == nullptr)
         {
-            moves.push_back(move);
+            moves.emplace_back(move);
             disambiguate(move, file, rank, moves);
         }
         else if (m_board->m_grid[file - 2][rank + 1]->get_side() != m_side)
         {
             move.insert(1, 1, 'x');
-            moves.push_back(move);
+            moves.emplace_back(move);
             disambiguate(move, file, rank, moves);
         }
     }
@@ -160,13 +161,13 @@ std::vector<std::string> Knight::get_moves(int8_t file, int8_t rank) const
 
         if (m_board->m_grid[file - 2][rank - 1] == nullptr)
         {
-            moves.push_back(move);
+            moves.emplace_back(move);
             disambiguate(move, file, rank, moves);
         }
         else if (m_board->m_grid[file - 2][rank - 1]->get_side() != m_side)
         {
             move.insert(1, 1, 'x');
-            moves.push_back(move);
+            moves.emplace_back(move);
             disambiguate(move, file, rank, moves);
         }
     }

@@ -1,7 +1,7 @@
 #include <ncurses.h>
 
-#include "piece.h"
 #include "board.h"
+#include "piece.h"
 #include "piece.h"
 #include "king.h"
 #include "bishop.h"
@@ -12,35 +12,35 @@
 
 Board::Board()
 {
-    m_grid[4][0] = new King(this, Piece::Position(1, 5), Piece::WHITE);
-    m_grid[5][7] = new King(this, Piece::Position(8, 5), Piece::BLACK);
+    m_grid[4][0] = new King(this, Piece::Side::WHITE);
+    m_grid[5][7] = new King(this, Piece::Side::BLACK);
 
-    m_grid[3][0] = new Queen(this, Piece::Position(1, 4), Piece::WHITE);
-    m_grid[3][7] = new Queen(this, Piece::Position(8, 4), Piece::BLACK);
+    m_grid[3][0] = new Queen(this, Piece::Side::WHITE);
+    m_grid[3][7] = new Queen(this, Piece::Side::BLACK);
 
-    m_grid[2][0] = new Bishop(this, Piece::Position(1, 3), Piece::WHITE);
-    m_grid[5][0] = new Bishop(this, Piece::Position(1, 6), Piece::WHITE);
-    m_grid[2][7] = new Bishop(this, Piece::Position(8, 3), Piece::BLACK);
-    m_grid[5][7] = new Bishop(this, Piece::Position(8, 6), Piece::BLACK);
+    m_grid[2][0] = new Bishop(this, Piece::Side::WHITE);
+    m_grid[5][0] = new Bishop(this, Piece::Side::WHITE);
+    m_grid[2][7] = new Bishop(this, Piece::Side::BLACK);
+    m_grid[5][7] = new Bishop(this, Piece::Side::BLACK);
 
-    m_grid[1][0] = new Knight(this, Piece::Position(1, 2), Piece::WHITE);
-    m_grid[6][0] = new Knight(this, Piece::Position(1, 7), Piece::WHITE);
-    m_grid[1][7] = new Knight(this, Piece::Position(8, 2), Piece::BLACK);
-    m_grid[6][7] = new Knight(this, Piece::Position(8, 7), Piece::BLACK);
+    m_grid[1][0] = new Knight(this, Piece::Side::WHITE);
+    m_grid[6][0] = new Knight(this, Piece::Side::WHITE);
+    m_grid[1][7] = new Knight(this, Piece::Side::BLACK);
+    m_grid[6][7] = new Knight(this, Piece::Side::BLACK);
 
-    m_grid[0][0] = new Rook(this, Piece::Position(1, 1), Piece::WHITE);
-    m_grid[7][0] = new Rook(this, Piece::Position(1, 8), Piece::WHITE);
-    m_grid[0][7] = new Rook(this, Piece::Position(8, 1), Piece::BLACK);
-    m_grid[7][7] = new Rook(this, Piece::Position(8, 8), Piece::BLACK);
+    m_grid[0][0] = new Rook(this, Piece::Side::WHITE);
+    m_grid[7][0] = new Rook(this, Piece::Side::WHITE);
+    m_grid[0][7] = new Rook(this, Piece::Side::BLACK);
+    m_grid[7][7] = new Rook(this, Piece::Side::BLACK);
 
-    for (int i = 1; i <= 8; i++)
+    for (int i = 0; i < 8; i++)
     {
-        m_grid[i - 1][1] = new Pawn(this, Piece::Position(2, i), Piece::WHITE);
+        m_grid[i][1] = new Pawn(this, Piece::Side::WHITE);
     }
 
-    for (int i = 1; i <= 8; i++)
+    for (int i = 0; i < 8; i++)
     {
-        m_grid[i - 1][6] = new Pawn(this, Piece::Position(7, i), Piece::BLACK);
+        m_grid[i][6] = new Pawn(this, Piece::Side::BLACK);
     }
 }
 
