@@ -5,7 +5,7 @@
 
 Piece::Piece(Board *board, Side side, char symb)
     : m_board(board)
-    , m_color(color)
+    , m_side(side)
     , m_symb(symb)
 {
 }

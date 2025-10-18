@@ -1,134 +1,175 @@
 #include "knight.h"
+#include "board.h"
 
-Knight::Knight(Board *board, Position pos, Side side)
-    : Piece(board, pos, side, 'N')
+Knight::Knight(Board *board, Side side)
+    : Piece(board, side, 'N')
 {
 }
 
-std::vector<std::string> Knight::possible_moves() const
+std::vector<std::string> Knight::get_moves(int8_t file, int8_t rank) const
 {
+    std::vector<std::string> moves;
     std::string move;
-    std::vector<std::string> possible_moves;
 
     // up right
-    if (!is_blocked(m_pos.rank + 2, m_pos.file + 1) && m_pos.rank + 2 <= 8 &&
-        m_pos.file + 1 <= 8)
+    if (file + 1 < 8 && rank + 2 < 8)
     {
         move = 'N';
-        move += m_pos.file + 'a';
-        move += std::to_string(m_pos.rank + 2);
-        possible_moves.push_back(move);
-        disambiguate(move, possible_moves);
+        move += file + 1 + 'a';
+        move += std::to_string(rank + 3);
 
-        move.insert(1, 1, 'x');
-        possible_moves.push_back(move);
-        disambiguate(move, possible_moves);
-    }
-
-    // down right
-    if (!is_blocked(m_pos.rank - 2, m_pos.file + 1) && m_pos.rank - 2 >= 1 &&
-        m_pos.file + 1 <= 8)
-    {
-        move = 'N';
-        move += m_pos.file + 'a';
-        move += std::to_string(m_pos.rank - 2);
-        possible_moves.push_back(move);
-        disambiguate(move, possible_moves);
-
-        move.insert(1, 1, 'x');
-        possible_moves.push_back(move);
-        disambiguate(move, possible_moves);
+        if (m_board->m_grid[file + 1][rank + 2] == nullptr)
+        {
+            moves.push_back(move);
+            disambiguate(move, file, rank, moves);
+        }
+        else if (m_board->m_grid[file + 1][rank + 2]->get_side() != m_side)
+        {
+            move.insert(1, 1, 'x');
+            moves.push_back(move);
+            disambiguate(move, file, rank, moves);
+        }
     }
 
     // up left
-    if (!is_blocked(m_pos.rank + 2, m_pos.file - 1) && m_pos.rank + 2 <= 8 &&
-        m_pos.file - 1 >= 1)
+    if (file - 1 > 0 && rank + 2 < 8)
     {
         move = 'N';
-        move += m_pos.file - 2 + 'a';
-        move += std::to_string(m_pos.rank + 2);
-        possible_moves.push_back(move);
-        disambiguate(move, possible_moves);
+        move += file - 1 + 'a';
+        move += std::to_string(rank + 3);
 
-        move.insert(1, 1, 'x');
-        possible_moves.push_back(move);
-        disambiguate(move, possible_moves);
+        if (m_board->m_grid[file - 1][rank + 2] == nullptr)
+        {
+            moves.push_back(move);
+            disambiguate(move, file, rank, moves);
+        }
+        else if (m_board->m_grid[file - 1][rank + 2]->get_side() != m_side)
+        {
+            move.insert(1, 1, 'x');
+            moves.push_back(move);
+            disambiguate(move, file, rank, moves);
+        }
+    }
+
+    // down right
+    if (file + 1 < 8 && rank - 2 > 0)
+    {
+        move = 'N';
+        move += file + 1 + 'a';
+        move += std::to_string(rank - 1);
+
+        if (m_board->m_grid[file + 1][rank - 2] == nullptr)
+        {
+            moves.push_back(move);
+            disambiguate(move, file, rank, moves);
+        }
+        else if (m_board->m_grid[file + 1][rank - 2]->get_side() != m_side)
+        {
+            move.insert(1, 1, 'x');
+            moves.push_back(move);
+            disambiguate(move, file, rank, moves);
+        }
     }
 
     // down left
-    if (!is_blocked(m_pos.rank - 2, m_pos.file - 1) && m_pos.rank - 2 >= 1 &&
-        m_pos.file - 1 >= 1)
+    if (file - 1 > 0 && rank - 2 > 0)
     {
         move = 'N';
-        move += m_pos.file - 2 + 'a';
-        move += std::to_string(m_pos.rank - 2);
-        possible_moves.push_back(move);
-        disambiguate(move, possible_moves);
+        move += file - 1 + 'a';
+        move += std::to_string(rank - 1);
 
-        move.insert(1, 1, 'x');
-        possible_moves.push_back(move);
-        disambiguate(move, possible_moves);
+        if (m_board->m_grid[file - 1][rank - 2] == nullptr)
+        {
+            moves.push_back(move);
+            disambiguate(move, file, rank, moves);
+        }
+        else if (m_board->m_grid[file - 1][rank - 2]->get_side() != m_side)
+        {
+            move.insert(1, 1, 'x');
+            moves.push_back(move);
+            disambiguate(move, file, rank, moves);
+        }
     }
 
     // right up
-    if (!is_blocked(m_pos.rank + 1, m_pos.file + 2) && m_pos.rank + 1 <= 8 &&
-        m_pos.file + 2 <= 8)
+    if (file + 2 < 8 && rank + 1 < 8)
     {
         move = 'N';
-        move += m_pos.file + 1 + 'a';
-        move += std::to_string(m_pos.rank + 1);
-        possible_moves.push_back(move);
-        disambiguate(move, possible_moves);
+        move += file + 2 + 'a';
+        move += std::to_string(rank + 2);
 
-        move.insert(1, 1, 'x');
-        possible_moves.push_back(move);
-        disambiguate(move, possible_moves);
+        if (m_board->m_grid[file + 2][rank + 1] == nullptr)
+        {
+            moves.push_back(move);
+            disambiguate(move, file, rank, moves);
+        }
+        else if (m_board->m_grid[file + 2][rank + 1]->get_side() != m_side)
+        {
+            move.insert(1, 1, 'x');
+            moves.push_back(move);
+            disambiguate(move, file, rank, moves);
+        }
     }
 
     // right down
-    if (!is_blocked(m_pos.rank - 1, m_pos.file + 2) && m_pos.rank - 1 >= 1 &&
-        m_pos.file + 2 <= 8)
+    if (file + 2 < 8 && rank - 1 > 0)
     {
         move = 'N';
-        move += m_pos.file + 1 + 'a';
-        move += std::to_string(m_pos.rank - 1);
-        possible_moves.push_back(move);
-        disambiguate(move, possible_moves);
+        move += file + 2 + 'a';
+        move += std::to_string(rank);
 
-        move.insert(1, 1, 'x');
-        possible_moves.push_back(move);
-        disambiguate(move, possible_moves);
+        if (m_board->m_grid[file + 2][rank - 1] == nullptr)
+        {
+            moves.push_back(move);
+            disambiguate(move, file, rank, moves);
+        }
+        else if (m_board->m_grid[file + 2][rank - 1]->get_side() != m_side)
+        {
+            move.insert(1, 1, 'x');
+            moves.push_back(move);
+            disambiguate(move, file, rank, moves);
+        }
     }
 
     // left up
-    if (!is_blocked(m_pos.rank + 1, m_pos.file - 2) && m_pos.rank + 1 <= 8 &&
-        m_pos.file - 2 >= 1)
+    if (file - 2 > 0 && rank + 1 < 8)
     {
         move = 'N';
-        move += m_pos.file - 3 + 'a';
-        move += std::to_string(m_pos.rank + 1);
-        possible_moves.push_back(move);
-        disambiguate(move, possible_moves);
+        move += file - 2 + 'a';
+        move += std::to_string(rank + 2);
 
-        move.insert(1, 1, 'x');
-        possible_moves.push_back(move);
-        disambiguate(move, possible_moves);
+        if (m_board->m_grid[file - 2][rank + 1] == nullptr)
+        {
+            moves.push_back(move);
+            disambiguate(move, file, rank, moves);
+        }
+        else if (m_board->m_grid[file - 2][rank + 1]->get_side() != m_side)
+        {
+            move.insert(1, 1, 'x');
+            moves.push_back(move);
+            disambiguate(move, file, rank, moves);
+        }
     }
 
     // left down
-    if (!is_blocked(m_pos.rank - 1, m_pos.file - 2) && m_pos.rank - 1 >= 1 &&
-        m_pos.file - 2 >= 1)
+    if (file - 2 > 0 && rank - 1 > 0)
     {
         move = 'N';
-        move += m_pos.file - 3 + 'a';
-        move += std::to_string(m_pos.rank - 1);
-        possible_moves.push_back(move);
-        disambiguate(move, possible_moves);
+        move += file - 2 + 'a';
+        move += std::to_string(rank);
 
-        move.insert(1, 1, 'x');
-        possible_moves.push_back(move);
-        disambiguate(move, possible_moves);
+        if (m_board->m_grid[file - 2][rank - 1] == nullptr)
+        {
+            moves.push_back(move);
+            disambiguate(move, file, rank, moves);
+        }
+        else if (m_board->m_grid[file - 2][rank - 1]->get_side() != m_side)
+        {
+            move.insert(1, 1, 'x');
+            moves.push_back(move);
+            disambiguate(move, file, rank, moves);
+        }
     }
 
-    return possible_moves;
+    return moves;
 }
