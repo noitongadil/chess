@@ -21,6 +21,11 @@ protected:
      */
     Piece(Board *board, Side side, char symb);
 
+    /**
+     * @brief Destructor.
+     */
+    virtual ~Piece() = default;
+
 public:
     /**
      * @brief Returns all the possible moves of a piece.
@@ -31,11 +36,6 @@ public:
      */
     virtual std::vector<std::string> get_moves(int8_t file,
                                                int8_t rank) const = 0;
-
-    /**
-     * @brief Destructor.
-     */
-    virtual ~Piece() = default;
 
     /**
      * @brief Returns the symbol of a piece.
