@@ -32,7 +32,7 @@ std::vector<std::string> Knight::get_moves(int8_t file, int8_t rank) const
     }
 
     // up left
-    if (file - 1 > 0 && rank + 2 < 8)
+    if (file - 1 >= 0 && rank + 2 < 8)
     {
         move = 'N';
         move += file - 1 + 'a';
@@ -52,7 +52,7 @@ std::vector<std::string> Knight::get_moves(int8_t file, int8_t rank) const
     }
 
     // down right
-    if (file + 1 < 8 && rank - 2 > 0)
+    if (file + 1 < 8 && rank - 2 >= 0)
     {
         move = 'N';
         move += file + 1 + 'a';
@@ -72,7 +72,7 @@ std::vector<std::string> Knight::get_moves(int8_t file, int8_t rank) const
     }
 
     // down left
-    if (file - 1 > 0 && rank - 2 > 0)
+    if (file - 1 >= 0 && rank - 2 >= 0)
     {
         move = 'N';
         move += file - 1 + 'a';
@@ -112,7 +112,7 @@ std::vector<std::string> Knight::get_moves(int8_t file, int8_t rank) const
     }
 
     // right down
-    if (file + 2 < 8 && rank - 1 > 0)
+    if (file + 2 < 8 && rank - 1 >= 0)
     {
         move = 'N';
         move += file + 2 + 'a';
@@ -132,7 +132,7 @@ std::vector<std::string> Knight::get_moves(int8_t file, int8_t rank) const
     }
 
     // left up
-    if (file - 2 > 0 && rank + 1 < 8)
+    if (file - 2 >= 0 && rank + 1 < 8)
     {
         move = 'N';
         move += file - 2 + 'a';
@@ -152,7 +152,7 @@ std::vector<std::string> Knight::get_moves(int8_t file, int8_t rank) const
     }
 
     // left down
-    if (file - 2 > 0 && rank - 1 > 0)
+    if (file - 2 >= 0 && rank - 1 >= 0)
     {
         move = 'N';
         move += file - 2 + 'a';

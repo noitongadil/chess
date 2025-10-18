@@ -11,9 +11,9 @@ std::vector<std::string> Queen::get_moves(int8_t file, int8_t rank) const
     std::vector<std::string> moves;
 
     // up right
-    for (int i = file; i < 8; i++)
+    for (int i = file + 1; i < 8; i++)
     {
-        for (int j = rank; j < 8; j++)
+        for (int j = rank + 1; j < 8; j++)
         {
             if (m_board->m_grid[i][j] != nullptr)
             {
@@ -41,9 +41,9 @@ std::vector<std::string> Queen::get_moves(int8_t file, int8_t rank) const
     }
 
     // up left
-    for (int i = file; i >= 0; i--)
+    for (int i = file - 1; i >= 0; i--)
     {
-        for (int j = rank; j < 8; j++)
+        for (int j = rank + 1; j < 8; j++)
         {
             if (m_board->m_grid[i][j] != nullptr)
             {
@@ -71,9 +71,9 @@ std::vector<std::string> Queen::get_moves(int8_t file, int8_t rank) const
     }
 
     // down right
-    for (int i = file; i < 8; i++)
+    for (int i = file + 1; i < 8; i++)
     {
-        for (int j = rank; j >= 0; j--)
+        for (int j = rank - 1; j >= 0; j--)
         {
             if (m_board->m_grid[i][j] != nullptr)
             {
@@ -101,9 +101,9 @@ std::vector<std::string> Queen::get_moves(int8_t file, int8_t rank) const
     }
 
     // down left
-    for (int i = file; i >= 0; i--)
+    for (int i = file - 1; i >= 0; i--)
     {
-        for (int j = rank; j >= 0; j--)
+        for (int j = rank - 1; j >= 0; j--)
         {
             if (m_board->m_grid[i][j] != nullptr)
             {
@@ -131,7 +131,7 @@ std::vector<std::string> Queen::get_moves(int8_t file, int8_t rank) const
     }
 
     // up
-    for (int j = rank; j < 8; j++)
+    for (int j = rank + 1; j < 8; j++)
     {
         if (m_board->m_grid[file][j] != nullptr)
         {
@@ -156,7 +156,7 @@ std::vector<std::string> Queen::get_moves(int8_t file, int8_t rank) const
     }
 
     // down
-    for (int j = rank; j >= 0; j--)
+    for (int j = rank - 1; j >= 0; j--)
     {
         if (m_board->m_grid[file][j] != nullptr)
         {
@@ -181,7 +181,7 @@ std::vector<std::string> Queen::get_moves(int8_t file, int8_t rank) const
     }
 
     // left
-    for (int i = file; i >= 0; i--)
+    for (int i = file - 1; i >= 0; i--)
     {
         if (m_board->m_grid[i][rank] != nullptr)
         {
@@ -206,7 +206,7 @@ std::vector<std::string> Queen::get_moves(int8_t file, int8_t rank) const
     }
 
     // right
-    for (int i = file; i >= 0; i--)
+    for (int i = file + 1; i >= 0; i--)
     {
         if (m_board->m_grid[i][rank] != nullptr)
         {
