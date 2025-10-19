@@ -58,9 +58,10 @@ protected:
     /**
      * @brief Disambiguates all possible moves of a piece.
      *
-     * @param move The move to disambiguate.
-     * @param possible_moves Reference to the vector of possible moves.
+     * @param file The file of the piece.
+     * @param rank The rank of the the piece.
+     * @param moves Reference to the vector of all possible moves.
      */
-    void disambiguate(std::string move, int8_t file, int8_t rank,
-                      std::vector<std::string> &possible_moves) const;
+    void disambiguate_moves(int8_t file, int8_t rank,
+                            std::vector<std::string> &moves) const;
 };

@@ -10,13 +10,16 @@ Piece::Piece(Board *board, Side side, char symb)
 {
 }
 
-void Piece::disambiguate(std::string move, int8_t file, int8_t rank,
-                         std::vector<std::string> &possible_moves) const
+void Piece::disambiguate_moves(int8_t file, int8_t rank,
+                         std::vector<std::string> &moves) const
 {
-    move.insert(1, 1, file + 'a');
-    possible_moves.push_back(move);
-    move.insert(2, std::to_string(rank + 1));
-    possible_moves.push_back(move);
+    for (auto move : moves)
+    {
+        move.insert(1, 1, file + 'a');
+        moves.emplace_back(move);
+        move.insert(2, std::to_string(rank + 1));
+        moves.emplace_back(move);
+    }
 }
 
 char Piece::get_symb()

@@ -12,7 +12,7 @@ Bishop::Bishop(Board *board, Side side)
 std::vector<std::string> Bishop::get_moves(int8_t file, int8_t rank) const
 {
     std::vector<std::string> moves;
-    moves.reserve(18);
+    moves.reserve(36);
     std::string move;
 
     // up right
@@ -28,14 +28,12 @@ std::vector<std::string> Bishop::get_moves(int8_t file, int8_t rank) const
             {
                 move.insert(1, 1, 'x');
                 moves.emplace_back(move);
-                disambiguate(move, i, j, moves);
             }
 
             break;
         }
 
         moves.emplace_back(move);
-        disambiguate(move, i, j, moves);
     }
 
     // up left
@@ -51,14 +49,12 @@ std::vector<std::string> Bishop::get_moves(int8_t file, int8_t rank) const
             {
                 move.insert(1, 1, 'x');
                 moves.emplace_back(move);
-                disambiguate(move, i, j, moves);
             }
 
             break;
         }
 
         moves.emplace_back(move);
-        disambiguate(move, i, j, moves);
     }
 
     // down right
@@ -74,14 +70,12 @@ std::vector<std::string> Bishop::get_moves(int8_t file, int8_t rank) const
             {
                 move.insert(1, 1, 'x');
                 moves.emplace_back(move);
-                disambiguate(move, i, j, moves);
             }
 
             break;
         }
 
         moves.emplace_back(move);
-        disambiguate(move, i, j, moves);
     }
 
     // down left
@@ -96,16 +90,15 @@ std::vector<std::string> Bishop::get_moves(int8_t file, int8_t rank) const
             {
                 move.insert(1, 1, 'x');
                 moves.emplace_back(move);
-                disambiguate(move, i, j, moves);
             }
 
             break;
         }
 
         moves.emplace_back(move);
-        disambiguate(move, i, j, moves);
     }
 
+    disambiguate_moves(file, rank, moves);
     moves.shrink_to_fit();
     return moves;
 }

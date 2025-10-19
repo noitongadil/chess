@@ -1,9 +1,12 @@
-#include <regex> // for input/move validation
-#include <iostream> // cout
 #include <ncurses.h>
 
 #include "board.h"
 
+/**
+ * @brief Gets user input.
+ *
+ * @return User string input(move).
+ */
 std::string get_user_move();
 
 int main()

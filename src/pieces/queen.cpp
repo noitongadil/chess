@@ -9,7 +9,7 @@ Queen::Queen(Board *board, Side side)
 std::vector<std::string> Queen::get_moves(int8_t file, int8_t rank) const
 {
     std::vector<std::string> moves;
-    moves.reserve(36);
+    moves.reserve(72);
     std::string move;
 
     // up
@@ -25,14 +25,12 @@ std::vector<std::string> Queen::get_moves(int8_t file, int8_t rank) const
             {
                 move.insert(1, 1, 'x');
                 moves.emplace_back(move);
-                disambiguate(move, file, j, moves);
             }
 
             break;
         }
 
         moves.emplace_back(move);
-        disambiguate(move, file, j, moves);
     }
 
     // down
@@ -48,14 +46,12 @@ std::vector<std::string> Queen::get_moves(int8_t file, int8_t rank) const
             {
                 move.insert(1, 1, 'x');
                 moves.emplace_back(move);
-                disambiguate(move, file, j, moves);
             }
 
             break;
         }
 
         moves.emplace_back(move);
-        disambiguate(move, file, j, moves);
     }
 
     // left
@@ -71,14 +67,12 @@ std::vector<std::string> Queen::get_moves(int8_t file, int8_t rank) const
             {
                 move.insert(1, 1, 'x');
                 moves.emplace_back(move);
-                disambiguate(move, i, rank, moves);
             }
 
             break;
         }
 
         moves.emplace_back(move);
-        disambiguate(move, i, rank, moves);
     }
 
     // right
@@ -94,14 +88,12 @@ std::vector<std::string> Queen::get_moves(int8_t file, int8_t rank) const
             {
                 move.insert(1, 1, 'x');
                 moves.emplace_back(move);
-                disambiguate(move, i, rank, moves);
             }
 
             break;
         }
 
         moves.emplace_back(move);
-        disambiguate(move, i, rank, moves);
     }
 
     // up right
@@ -117,14 +109,12 @@ std::vector<std::string> Queen::get_moves(int8_t file, int8_t rank) const
             {
                 move.insert(1, 1, 'x');
                 moves.emplace_back(move);
-                disambiguate(move, i, j, moves);
             }
 
             break;
         }
 
         moves.emplace_back(move);
-        disambiguate(move, i, j, moves);
     }
 
     // up left
@@ -140,14 +130,12 @@ std::vector<std::string> Queen::get_moves(int8_t file, int8_t rank) const
             {
                 move.insert(1, 1, 'x');
                 moves.emplace_back(move);
-                disambiguate(move, i, j, moves);
             }
 
             break;
         }
 
         moves.emplace_back(move);
-        disambiguate(move, i, j, moves);
     }
 
     // down right
@@ -163,14 +151,12 @@ std::vector<std::string> Queen::get_moves(int8_t file, int8_t rank) const
             {
                 move.insert(1, 1, 'x');
                 moves.emplace_back(move);
-                disambiguate(move, i, j, moves);
             }
 
             break;
         }
 
         moves.emplace_back(move);
-        disambiguate(move, i, j, moves);
     }
 
     // down left
@@ -185,16 +171,15 @@ std::vector<std::string> Queen::get_moves(int8_t file, int8_t rank) const
             {
                 move.insert(1, 1, 'x');
                 moves.emplace_back(move);
-                disambiguate(move, i, j, moves);
             }
 
             break;
         }
 
         moves.emplace_back(move);
-        disambiguate(move, i, j, moves);
     }
 
+    disambiguate_moves(file, rank, moves);
     moves.shrink_to_fit();
     return moves;
 }
