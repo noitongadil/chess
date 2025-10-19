@@ -123,7 +123,7 @@ void Board::display_board()
     wclear(win);
 }
 
-void Board::make_move(std::string &move, Piece::Side side)
+bool Board::make_move(std::string &move, Piece::Side side)
 {
     int mv_len = move.length();
 
@@ -177,7 +177,7 @@ void Board::make_move(std::string &move, Piece::Side side)
                             m_grid[file + 2][rank] = king;
                             m_grid[file][rank] = nullptr;
                             m_grid[7][rank] = nullptr;
-                            return;
+                            return true;
                         }
 
                         case 2:
@@ -187,7 +187,7 @@ void Board::make_move(std::string &move, Piece::Side side)
                             m_grid[file - 2][rank] = king;
                             m_grid[file][rank] = nullptr;
                             m_grid[0][rank] = nullptr;
-                            return;
+                            return true;
                         }
 
                         default:
@@ -203,9 +203,11 @@ void Board::make_move(std::string &move, Piece::Side side)
                     m_grid[dest_file][dest_rank] = m_grid[file][rank];
                     m_grid[file][rank] = nullptr;
 
-                    return;
+                    return true;
                 }
             }
         }
     }
+
+    return false;
 }
