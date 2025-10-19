@@ -21,12 +21,12 @@ protected:
      */
     Piece(Board *board, Side side, char symb);
 
+public:
     /**
      * @brief Destructor.
      */
     virtual ~Piece() = default;
 
-public:
     /**
      * @brief Returns all the possible moves of a piece.
      *

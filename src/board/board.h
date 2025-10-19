@@ -12,6 +12,11 @@ public:
     Board();
 
     /**
+     * @brief Destructor.
+     */
+    ~Board();
+
+    /**
      * @brief Prints the board.
      */
     void display_board();
@@ -24,5 +29,5 @@ public:
      */
     void make_move(std::string &move, Piece::Side side);
 
-    Piece *m_grid[8][8]; ///< The grid of pieces.
+    Piece *m_grid[8][8] = {}; ///< The grid of pieces.
 };

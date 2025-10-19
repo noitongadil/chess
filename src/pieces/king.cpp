@@ -1,3 +1,6 @@
+#include <string>
+#include <vector>
+
 #include "king.h"
 #include "board.h"
 
@@ -67,7 +70,7 @@ std::vector<std::string> King::get_moves(int8_t file, int8_t rank) const
     }
 
     // right
-    if (file > 0)
+    if (file < 7)
     {
         move = "K";
         move += file + 1 + 'a';
@@ -158,11 +161,38 @@ std::vector<std::string> King::get_moves(int8_t file, int8_t rank) const
 
     if ((rank == 0 || rank == 7) && file == 4)
     {
-        move = "O-O";
-        moves.emplace_back(move);
-        move = "O-O-O";
-        moves.emplace_back(move);
+        bool x = true;
+        for (int i = file + 1; i < 7; i++)
+        {
+            if (m_board->m_grid[i][rank] != nullptr)
+            {
+                x = false;
+                break;
+            }
+        }
+
+        if (x)
+        {
+            move = "O-O";
+            moves.emplace_back(move);
+        }
+
+        for (int i = file - 1; i > 0; i--)
+        {
+            if (m_board->m_grid[i][rank] != nullptr)
+            {
+                x = false;
+                break;
+            }
+        }
+
+        if (x)
+        {
+            move = "O-O-O";
+            moves.emplace_back(move);
+        }
     }
 
+    moves.shrink_to_fit();
     return moves;
 }

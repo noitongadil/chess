@@ -18,3 +18,13 @@ void Piece::disambiguate(std::string move, int8_t file, int8_t rank,
     move.insert(2, std::to_string(rank + 1));
     possible_moves.push_back(move);
 }
+
+char Piece::get_symb()
+{
+    return m_symb;
+}
+
+Piece::Side Piece::get_side()
+{
+    return m_side;
+}

@@ -21,14 +21,14 @@ std::vector<std::string> Pawn::get_moves(int8_t file, int8_t rank) const
             moves.push_back(move);
         }
 
-        if (rank < 8 && m_board->m_grid[file][rank + 1] == nullptr)
+        if (rank + 1 < 8 && m_board->m_grid[file][rank + 1] == nullptr)
         {
             move = file + 'a';
             move += std::to_string(rank + 2);
             moves.push_back(move);
         }
 
-        if (file < 8 && rank < 8 &&
+        if (file + 1 < 8 && rank + 1 < 8 &&
             m_board->m_grid[file + 1][rank + 1] != nullptr)
         {
             move = file + 'a';
@@ -38,7 +38,7 @@ std::vector<std::string> Pawn::get_moves(int8_t file, int8_t rank) const
             moves.push_back(move);
         }
 
-        if (file > 0 && rank < 8 &&
+        if (file > 0 && rank + 1 < 8 &&
             m_board->m_grid[file - 1][rank + 1] != nullptr)
         {
             move = file + 'a';
@@ -64,7 +64,7 @@ std::vector<std::string> Pawn::get_moves(int8_t file, int8_t rank) const
             moves.push_back(move);
         }
 
-        if (file < 8 && rank > 0 &&
+        if (file + 1 < 8 && rank > 0 &&
             m_board->m_grid[file + 1][rank - 1] != nullptr)
         {
             move = file + 'a';
@@ -85,5 +85,6 @@ std::vector<std::string> Pawn::get_moves(int8_t file, int8_t rank) const
         }
     }
 
+    moves.shrink_to_fit();
     return moves;
 }

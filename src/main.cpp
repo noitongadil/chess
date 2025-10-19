@@ -1,6 +1,4 @@
-#include <fstream> // for getting input from file
 #include <regex> // for input/move validation
-#include <vector> // for vectors
 #include <iostream> // cout
 #include <ncurses.h>
 
@@ -10,27 +8,26 @@ std::string get_user_move();
 
 int main()
 {
+    initscr();
     Board board;
     board.display_board();
 
     for (int i = 0;; i++)
     {
         std::string move = get_user_move();
-        Piece::Side side = (i % 2 == 0) ? Piece::WHITE : Piece::BLACK;
-        std::cout << std::endl;
-        std::cout << "move: " << move << std::endl
-                  << "move num: " << i + 1 << std::endl;
+        Piece::Side side = (i % 2 == 0) ? Piece::Side::WHITE :
+                                          Piece::Side::BLACK;
 
         board.make_move(move, side);
         board.display_board();
     }
 
+    endwin();
     return 0;
 }
 
 std::string get_user_move()
 {
-    initscr();
     echo();
 
     int max_x = getmaxx(stdscr);
@@ -42,9 +39,8 @@ std::string get_user_move()
     box(win, 0, 0);
     refresh();
 
-    char move[10];
+    char move[7];
     mvwgetstr(win, 1, 1, move);
 
-    endwin();
     return move;
 }

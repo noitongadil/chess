@@ -172,5 +172,6 @@ std::vector<std::string> Knight::get_moves(int8_t file, int8_t rank) const
         }
     }
 
+    moves.shrink_to_fit();
     return moves;
 }

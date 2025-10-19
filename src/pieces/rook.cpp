@@ -83,7 +83,7 @@ std::vector<std::string> Rook::get_moves(int8_t file, int8_t rank) const
     }
 
     // right
-    for (int i = file + 1; i >= 0; i--)
+    for (int i = file + 1; i < 8; i++)
     {
         move = "R";
         move += i + 'a';
@@ -105,5 +105,6 @@ std::vector<std::string> Rook::get_moves(int8_t file, int8_t rank) const
         disambiguate(move, i, rank, moves);
     }
 
+    moves.shrink_to_fit();
     return moves;
 }
