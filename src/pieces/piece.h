@@ -12,7 +12,6 @@ public:
     {
         WHITE,
         BLACK,
-        NONE,
     };
 
 protected:

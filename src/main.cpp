@@ -27,7 +27,6 @@ int main()
     for (int i = 0;; i++)
     {
         std::string move = get_user_move();
-
         Piece::Side side = (i % 2 == 0) ? Piece::Side::WHITE :
                                           Piece::Side::BLACK;
 
