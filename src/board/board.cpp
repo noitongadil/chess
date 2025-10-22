@@ -123,31 +123,44 @@ void Board::display_board()
     wclear(win);
 }
 
-void Board::make_move(std::string &move, Piece::Side side)
+bool Board::make_move(std::string &move, Piece::Side side)
 {
     int mv_len = move.length();
 
     int dest_file = move[mv_len - 2] - 'a';
     int dest_rank = move[mv_len - 1] - '1';
 
-    if (move[mv_len - 1] == '+' || move[mv_len - 1] == '#')
+    if (move[mv_len - 1] == '+')
     {
+        m_checked = true;
+        dest_file = move[mv_len - 3] - 'a';
+        dest_rank = move[mv_len - 2] - '1';
+
+        move.erase(move.end() - 1);
+    }
+    else if (move[mv_len - 1] == '#')
+    {
+        m_mated = true;
         dest_file = move[mv_len - 3] - 'a';
         dest_rank = move[mv_len - 2] - '1';
 
         move.erase(move.end() - 1);
     }
 
-    int8_t castle;
+    enum class Castle : char
+    {
+        SHORT,
+        LONG,
+        NONE,
+    } castle = Castle::NONE;
+
     if (move == "O-O")
     {
-        // short
-        castle = 1;
+        castle = Castle::SHORT;
     }
     else if (move == "O-O-O")
     {
-        // long
-        castle = 2;
+        castle = Castle::LONG;
     }
 
     for (int file = 0; file < 8; file++)
@@ -167,33 +180,29 @@ void Board::make_move(std::string &move, Piece::Side side)
             {
                 if (loc_move == move)
                 {
-                    // clang-format off
                     switch (castle)
                     {
-                        case 1:
-                        {
-                            auto king = m_grid[file][rank];
-                            m_grid[file + 1][rank] = m_grid[7][rank];
-                            m_grid[file + 2][rank] = king;
-                            m_grid[file][rank] = nullptr;
-                            m_grid[7][rank] = nullptr;
-                            return;
-                        }
-
-                        case 2:
-                        {
-                            auto king = m_grid[file][rank];
-                            m_grid[file - 1][rank] = m_grid[0][rank];
-                            m_grid[file - 2][rank] = king;
-                            m_grid[file][rank] = nullptr;
-                            m_grid[0][rank] = nullptr;
-                            return;
-                        }
-
-                        default:
-                            break;
+                    case Castle::SHORT: {
+                        auto king = m_grid[file][rank];
+                        m_grid[file + 1][rank] = m_grid[7][rank];
+                        m_grid[file + 2][rank] = king;
+                        m_grid[file][rank] = nullptr;
+                        m_grid[7][rank] = nullptr;
+                        return true;
                     }
-                    // clang-format on
+
+                    case Castle::LONG: {
+                        auto king = m_grid[file][rank];
+                        m_grid[file - 1][rank] = m_grid[0][rank];
+                        m_grid[file - 2][rank] = king;
+                        m_grid[file][rank] = nullptr;
+                        m_grid[0][rank] = nullptr;
+                        return true;
+                    }
+
+                    default:
+                        break;
+                    }
 
                     if (m_grid[dest_file][dest_rank] != nullptr)
                     {
@@ -203,9 +212,11 @@ void Board::make_move(std::string &move, Piece::Side side)
                     m_grid[dest_file][dest_rank] = m_grid[file][rank];
                     m_grid[file][rank] = nullptr;
 
-                    return;
+                    return true;
                 }
             }
         }
     }
+
+    return false;
 }
