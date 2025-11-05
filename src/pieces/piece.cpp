@@ -11,9 +11,10 @@ Piece::Piece(Board *board, Side side, char symb)
 }
 
 void Piece::disambiguate_moves(int8_t file, int8_t rank,
-                         std::vector<std::string> &moves) const
+                               std::vector<std::string> &moves) const
 {
-    for (auto move : moves)
+    auto local_moves = moves;
+    for (auto &move : local_moves)
     {
         move.insert(1, 1, file + 'a');
         moves.emplace_back(move);

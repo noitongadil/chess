@@ -27,14 +27,20 @@ public:
     virtual ~Piece() = default;
 
     /**
-     * @brief Returns all the possible moves of a piece.
+     * @brief get all moves a piece can make given a starting position.
      *
-     * @param file The file the piece is on.
-     * @param rank The rank the piece is on.
-     * @return A vector of strings containing all possible moves.
+     * @param file the file the piece is on.
+     * @param rank the rank the piece is on.
+     * @return a vector of type std::string containing all possible moves
+     *         for a piece.
      */
     virtual std::vector<std::string> get_moves(int8_t file,
                                                int8_t rank) const = 0;
+
+    /**
+     * @brief A "deep" copy of a piece.
+     */
+    virtual Piece *copy() const = 0;
 
     /**
      * @brief Returns the symbol of a piece.
@@ -45,9 +51,6 @@ public:
      * @brief Returns the side of a piece.
      */
     Side get_side();
-
-    Piece(const Piece &other) = delete;
-    Piece(Piece &&other) = delete;
 
 protected:
     Board *m_board; ///< Pointer to the board being played on.

@@ -44,6 +44,37 @@ Board::Board()
     }
 }
 
+Board::Board(const Board &other)
+{
+    for (int file = 0; file < 8; file++)
+    {
+        for (int rank = 0; rank < 8; rank++)
+        {
+            m_grid[file][rank] = other.m_grid[file][rank]->copy();
+        }
+    }
+}
+
+Board &Board::operator=(const Board &other)
+{
+    for (int file = 0; file < 8; file++)
+    {
+        for (int rank = 0; rank < 8; rank++)
+        {
+            if (other.m_grid[file][rank] != nullptr)
+            {
+                m_grid[file][rank] = other.m_grid[file][rank]->copy();
+            }
+            else
+            {
+                m_grid[file][rank] = nullptr;
+            }
+        }
+    }
+
+    return *this;
+}
+
 Board::~Board()
 {
     for (int file = 0; file < 8; file++)
@@ -75,7 +106,7 @@ void Board::display_board()
 
     int height = 10;
     int width = 19;
-    int start_y = (max_y - height) / 2;
+    int start_y = (max_y - height - 5) / 2;
     int start_x = (max_x - width) / 2;
 
     WINDOW *win = newwin(height, width, start_y, start_x);
@@ -85,6 +116,7 @@ void Board::display_board()
     start_color();
     init_pair(1, COLOR_RED, COLOR_BLACK);
     init_pair(2, COLOR_BLUE, COLOR_BLACK);
+    init_pair(3, COLOR_BLACK, COLOR_BLACK);
 
     for (int rank = 1; rank <= 8; rank++)
     {
@@ -102,6 +134,8 @@ void Board::display_board()
         {
             if (m_grid[file][rank] == nullptr)
             {
+                wattron(win, COLOR_PAIR(3));
+                mvwprintw(win, 8 - rank, (file + 1) * 2, " ");
                 continue;
             }
 
@@ -132,7 +166,6 @@ bool Board::make_move(std::string &move, Piece::Side side)
 
     if (move[mv_len - 1] == '+')
     {
-        m_checked = true;
         dest_file = move[mv_len - 3] - 'a';
         dest_rank = move[mv_len - 2] - '1';
 
@@ -140,7 +173,6 @@ bool Board::make_move(std::string &move, Piece::Side side)
     }
     else if (move[mv_len - 1] == '#')
     {
-        m_mated = true;
         dest_file = move[mv_len - 3] - 'a';
         dest_rank = move[mv_len - 2] - '1';
 

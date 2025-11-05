@@ -7,6 +7,11 @@ Rook::Rook(Board *board, Side side)
 {
 }
 
+Piece *Rook::copy() const
+{
+    return new Rook(m_board, m_side);
+}
+
 std::vector<std::string> Rook::get_moves(int8_t file, int8_t rank) const
 {
     std::vector<std::string> moves;

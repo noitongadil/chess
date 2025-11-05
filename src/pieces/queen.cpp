@@ -6,6 +6,11 @@ Queen::Queen(Board *board, Side side)
 {
 }
 
+Piece *Queen::copy() const
+{
+    return new Queen(m_board, m_side);
+}
+
 std::vector<std::string> Queen::get_moves(int8_t file, int8_t rank) const
 {
     std::vector<std::string> moves;

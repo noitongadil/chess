@@ -9,6 +9,11 @@ King::King(Board *board, Side side)
 {
 }
 
+Piece *King::copy() const
+{
+    return new King(m_board, m_side);
+}
+
 std::vector<std::string> King::get_moves(int8_t file, int8_t rank) const
 {
     std::vector<std::string> moves;
@@ -37,7 +42,7 @@ std::vector<std::string> King::get_moves(int8_t file, int8_t rank) const
     if (rank < 7 && file < 7)
     {
         move = "K";
-        move += file + 'a';
+        move += file + 1 + 'a';
         move += std::to_string(rank + 2);
 
         if (m_board->m_grid[file + 1][rank + 1] == nullptr)

@@ -6,6 +6,11 @@ Knight::Knight(Board *board, Side side)
 {
 }
 
+Piece *Knight::copy() const
+{
+    return new Knight(m_board, m_side);
+}
+
 std::vector<std::string> Knight::get_moves(int8_t file, int8_t rank) const
 {
     std::vector<std::string> moves;

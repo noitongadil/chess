@@ -9,6 +9,11 @@ Bishop::Bishop(Board *board, Side side)
 {
 }
 
+Piece *Bishop::copy() const
+{
+    return new Bishop(m_board, m_side);
+}
+
 std::vector<std::string> Bishop::get_moves(int8_t file, int8_t rank) const
 {
     std::vector<std::string> moves;
@@ -58,7 +63,7 @@ std::vector<std::string> Bishop::get_moves(int8_t file, int8_t rank) const
     }
 
     // down right
-    for (int i = file + 1, j = rank - 1; i < 8 && j >= 0; i++, j++)
+    for (int i = file + 1, j = rank - 1; i < 8 && j >= 0; i++, j--)
     {
         move = "B";
         move += i + 'a';

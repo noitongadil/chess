@@ -12,6 +12,16 @@ public:
     Board();
 
     /**
+     * @brief Copy constructor.
+     */
+    Board(const Board &other);
+
+    /**
+     * @brief Copy assignment operator.
+     */
+    Board &operator=(const Board &other);
+
+    /**
      * @brief Destructor.
      */
     ~Board();
@@ -29,5 +39,5 @@ public:
      */
     bool make_move(std::string &move, Piece::Side side);
 
-    Piece *m_grid[8][8] = {}; ///< The grid of pieces.
+    std::array<std::array<Piece *, 8>, 8> m_grid = {}; ///< The grid of pieces.
 };

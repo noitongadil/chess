@@ -1,9 +1,14 @@
 #include "pawn.h"
 #include "board.h"
 
-Pawn::Pawn(Board *local_board, Side side)
-    : Piece(local_board, side, 'P')
+Pawn::Pawn(Board *board, Side side)
+    : Piece(board, side, 'P')
 {
+}
+
+Piece *Pawn::copy() const
+{
+    return new Pawn(m_board, m_side);
 }
 
 std::vector<std::string> Pawn::get_moves(int8_t file, int8_t rank) const

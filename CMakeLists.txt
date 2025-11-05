@@ -3,10 +3,13 @@ project(chess VERSION 1.0)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_BUILD_TYPE Debug)
 
 set(SRC_FILES
     src/main.cpp
     src/board/board.cpp
+    src/game/game.cpp
+    src/game/replay.cpp
     src/pieces/piece.cpp
     src/pieces/king.cpp
     src/pieces/queen.cpp
@@ -23,6 +26,7 @@ include_directories(
     src
     src/board
     src/pieces
+    src/game
 )
 
 add_executable(chess ${SRC_FILES})

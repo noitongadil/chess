@@ -1,82 +1,75 @@
+#include "replay.h"
 #include <ncurses.h>
-#include <regex>
 
-#include "board.h"
+#include "game.h"
+#include "replay.h"
 
-/**
- * @brief Gets user input.
- *
- * @return User string input(move).
- */
-std::string get_user_move();
-
-/**
- * @brief Checks if a move is valid or not.
- *
- * @param move Move to validate.
- * @return True if valid and false if not.
- */
-bool validate_move(std::string &move);
+inline int get_user_input();
 
 int main()
 {
     initscr();
-    Board board;
-    board.display_board();
 
-    for (int i = 0;; i++)
+    int user_choice = get_user_input();
+
+    switch (user_choice)
     {
-        std::string move = get_user_move();
-        Piece::Side side = (i % 2 == 0) ? Piece::Side::WHITE :
-                                          Piece::Side::BLACK;
-
-        while (board.make_move(move, side) == false)
-        {
-            move = get_user_move();
-        }
-
-        board.display_board();
+    default: {
+        fprintf(stderr, "invalid mode\n");
+        break;
+    }
+    case 1: {
+        Game game;
+        game.play();
+        break;
+    }
+    case 2: {
+        Replay replay;
+        replay.play();
+        break;
+    }
     }
 
     endwin();
     return 0;
 }
 
-std::string get_user_move()
+inline int get_user_input()
 {
     echo();
 
     int max_x = getmaxx(stdscr);
     int max_y = getmaxy(stdscr);
 
-    int height = 3;
-    int width = 23;
-    int start_y = (max_y - height - 3);
-    int start_x = (max_x - width) / 2;
+    int big_height = 8;
+    int big_width = 44;
+    int big_start_y = (max_y - big_height - 5) / 2;
+    int big_start_x = (max_x - big_width) / 2;
 
-    WINDOW *win = newwin(height, width, start_y, start_x);
-    box(win, 0, 0);
+    WINDOW *big_box = newwin(big_height, big_width, big_start_y, big_start_x);
+    box(big_box, 0, 0);
+    refresh();
+    wrefresh(big_box);
+
+    mvprintw(big_start_y + 1, big_start_x + 1, "1 - Play a game of chess.");
+    mvprintw(big_start_y + 2, big_start_x + 1, "2 - Watch the replay of a game of chess.");
+    mvprintw(big_start_y + 4, big_start_x + 1, "Enter anything else to exit.");
+    mvprintw(big_start_y + 6, big_start_x + 24, "made by noitongadil");
+
+    int small_height = 3;
+    int small_width = 23;
+    int small_start_y = (max_y / 2) - small_height + 5;
+    int small_start_x = (max_x - small_width) / 2;
+
+    WINDOW *small_box =
+        newwin(small_height, small_width, small_start_y, small_start_x);
+    box(small_box, 0, 0);
     refresh();
 
-    char move[7];
+    char choice[1];
+    mvwgetstr(small_box, 1, 1, choice);
 
-    mvwgetstr(win, 1, 1, move);
-    std::string stdmove = move;
-    while (validate_move(stdmove) == false)
-    {
-        mvwgetstr(win, 1, 1, move);
-        stdmove = move;
-    }
+    clear();
 
-    return move;
-}
-
-bool validate_move(std::string &move)
-{
-    std::regex valid_move(
-        "(([RNBKQ])?([a-h])?([1-8])?(x)?([a-h][1-8])(\\+|\\#)?)"
-        "|((O-O)(-O)?)"
-        "|(([a-h][1-8])(=)([RNBQ]))");
-
-    return std::regex_match(move, valid_move);
+    return atoi(choice);
 }
